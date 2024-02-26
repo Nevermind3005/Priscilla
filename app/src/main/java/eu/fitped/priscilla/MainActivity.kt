@@ -10,43 +10,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.example.compose.PriscillaTheme
 import dagger.hilt.android.AndroidEntryPoint
-import eu.fitped.priscilla.ui.theme.PriscillaTheme
+import eu.fitped.priscilla.navigation.AppNavHost
+import eu.fitped.priscilla.navigation.NavigationItem
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject lateinit var test: Test
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             PriscillaTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting(test.value)
+                    AppNavHost(
+                        navController = rememberNavController(),
+                        startDestination = NavigationItem.Login.route
+                    )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PriscillaTheme {
-        Greeting("Android")
     }
 }

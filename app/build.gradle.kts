@@ -52,6 +52,8 @@ android {
 }
 
 dependencies {
+    val nav_version = "2.7.7"
+    val material3_version = "1.1.2"
 
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
@@ -74,10 +76,16 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0") {
         exclude("okhttp")
     }
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.0.1")
-    implementation("com.squareup.retrofit2:converter-jackson:2.16.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.+")
+    implementation("com.squareup.retrofit2:converter-jackson:2.9.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation("androidx.compose.material3:material3:$material3_version")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 }
 
 kapt {
