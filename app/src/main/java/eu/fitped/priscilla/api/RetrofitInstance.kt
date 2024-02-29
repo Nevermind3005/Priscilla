@@ -6,11 +6,16 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import eu.fitped.priscilla.BASE_URL
+import eu.fitped.priscilla.IJwtTokenManager
 import eu.fitped.priscilla.service.IAuthService
+import eu.fitped.priscilla.service.ICourseService
+import eu.fitped.priscilla.service.IUserService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
+import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 val mapper = jacksonObjectMapper()
@@ -47,4 +52,49 @@ object RetrofitInstance {
     @Singleton
     fun provideLoginService(retrofit: Retrofit) : IAuthService = retrofit.create(IAuthService::class.java)
 
+
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class AuthenticatedClient
+
+    @Provides
+    fun providesAccessTokenInterceptor(tokenManager: IJwtTokenManager) = AccessTokenInterceptor(tokenManager)
+
+    @Provides
+    @Singleton
+    @AuthenticatedClient
+    fun providesAccessOkHttpClient(
+        accessTokenInterceptor: AccessTokenInterceptor,
+        httpLoggingInterceptor: HttpLoggingInterceptor
+    ) : OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(accessTokenInterceptor)
+            .addInterceptor(httpLoggingInterceptor)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .build()
+    }
+
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class AuthenticatedRetrofit
+
+    @Singleton
+    @Provides
+    @AuthenticatedRetrofit
+    fun provideAuthRetrofit(@AuthenticatedClient okHttpClient: OkHttpClient) : Retrofit = Retrofit
+        .Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(JacksonConverterFactory.create(mapper))
+        .client(okHttpClient)
+        .build()
+
+    @Provides
+    @Singleton
+    fun provideUserService(@AuthenticatedRetrofit retrofit: Retrofit) : IUserService = retrofit.create(IUserService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCourseService(@AuthenticatedRetrofit retrofit: Retrofit) : ICourseService = retrofit.create(ICourseService::class.java)
 }

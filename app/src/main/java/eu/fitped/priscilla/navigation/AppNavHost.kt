@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import eu.fitped.priscilla.components.BottomNavigationBar
 import eu.fitped.priscilla.screen.Dashboard
 import eu.fitped.priscilla.screen.Login
 
@@ -23,7 +24,7 @@ fun AppNavHost(
             Login(navController = navController)
         }
         composable(NavigationItem.Home.route) {
-            Dashboard()
+            BottomNavigationBar()
         }
     }
 }

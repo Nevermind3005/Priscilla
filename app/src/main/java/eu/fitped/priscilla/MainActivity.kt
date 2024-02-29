@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.PriscillaTheme
 import dagger.hilt.android.AndroidEntryPoint
+import eu.fitped.priscilla.components.BottomNavigationBar
 import eu.fitped.priscilla.navigation.AppNavHost
 import eu.fitped.priscilla.navigation.NavigationItem
 import javax.inject.Inject

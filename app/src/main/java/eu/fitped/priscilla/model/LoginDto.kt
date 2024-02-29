@@ -1,9 +1,9 @@
 package eu.fitped.priscilla.model
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class LoginDto (
-    // TODO fix serialization this is retarded
     @JsonProperty("client_id")
     val clientId: String = "2",
     @JsonProperty("client_secret")
