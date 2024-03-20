@@ -13,6 +13,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import eu.fitped.priscilla.components.BottomNavigationBar
 import eu.fitped.priscilla.viewModel.LoginViewModel
 import eu.fitped.priscilla.components.CourseList
@@ -26,15 +27,19 @@ import retrofit2.Response
 
 @Composable
 fun Dashboard(
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    ) {
     val dashboardViewModel: DashboardViewModel = hiltViewModel()
     val state by dashboardViewModel.dataState.collectAsState()
 
     Column(modifier = Modifier.fillMaxSize()) {
         when (state) {
             is DataState.Loading -> Loading()
-            is DataState.Success<*> -> CourseList(courseList = (state as DataState.Success<CoursesDto>).data.list)
+            is DataState.Success<*> -> CourseList(
+                courseList = (state as DataState.Success<CoursesDto>).data.list,
+                navController = navController
+            )
             is DataState.Error -> Text("Error: ${(state as DataState.Error).message}")
         }
     }

@@ -1,5 +1,6 @@
 package eu.fitped.priscilla.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,10 +36,12 @@ import eu.fitped.priscilla.ui.theme.Typography
 @Composable
 fun CourseCard(
     modifier: Modifier = Modifier,
-    courseDto: CourseDto
+    courseDto: CourseDto,
+    onClick: (() -> Unit)? = null
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth()
+            .clickable(enabled = onClick != null, onClick = onClick ?: {} ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
         )

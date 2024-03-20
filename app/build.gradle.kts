@@ -14,7 +14,7 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.1a - Alphinaud"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -78,6 +78,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0") {
         exclude("okhttp")
     }
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0") // For RxJava (if needed)
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.+")
     implementation("com.squareup.retrofit2:converter-jackson:2.9.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
@@ -88,6 +89,8 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.compose.material3:material3:$material3_version")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation("org.jsoup:jsoup:1.17.2")
+    implementation("io.github.aghajari:AnnotatedText:1.0.3")
 }
 
 kapt {

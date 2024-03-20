@@ -80,7 +80,10 @@ fun Login(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         when (loginState) {
-            is LoginState.LoggedIn -> navController.navigate(NavigationItem.Home.route)
+            is LoginState.LoggedIn -> {
+                navController.popBackStack()
+                navController.navigate(NavigationItem.Home.route)
+            }
             is LoginState.Idle -> {
                 Spacer(modifier = Modifier.size(64.dp))
                 Icon(
@@ -114,12 +117,12 @@ fun Login(
                         onValueChange = {
                             email = it
                             isEmailValid = it.isNotEmpty() && it.isValidEmail()
-                            println(isEmailValid)
                         },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Email,
                             capitalization = KeyboardCapitalization.None
                         ),
+
                         supportingText = {
                             if (!isEmailValid) {
                                 Text(text = "Email is not valid")
@@ -167,7 +170,10 @@ fun Login(
                 }
             }
             is LoginState.Loading -> Loading()
-            is LoginState.Success -> navController.navigate(NavigationItem.Home.route)
+            is LoginState.Success -> {
+                navController.popBackStack()
+                navController.navigate(NavigationItem.Home.route)
+            }
             is LoginState.Error -> Toast.makeText(context, "Error: ${(loginState as LoginState.Error).message}", Toast.LENGTH_SHORT).show()
             else -> println("Error idk what happened")
         }

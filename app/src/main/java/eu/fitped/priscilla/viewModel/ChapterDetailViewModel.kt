@@ -1,5 +1,6 @@
 package eu.fitped.priscilla.viewModel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,21 +12,23 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DashboardViewModel @Inject constructor(
-    private val courseService: ICourseService,
-    ) : ViewModel() {
+class ChapterDetailViewModel @Inject constructor(
+    private val _courseService: ICourseService,
+    savedStateHandle: SavedStateHandle
+): ViewModel() {
+    private val chapterId: String = savedStateHandle["chapterId"] ?: ""
     private val _dataState = MutableStateFlow<DataState>(DataState.Loading)
     val dataState: StateFlow<DataState> get() = _dataState
 
     init {
-        fetchData()
+        getChapterLessons()
     }
 
-    private fun fetchData() {
+    private fun getChapterLessons() {
         viewModelScope.launch {
             Thread {
                 try {
-                    val response = courseService.getUserCourses().execute()
+                    val response = _courseService.getChapterLessons(chapterId = chapterId).execute()
                     if (response.isSuccessful) {
                         _dataState.value = DataState.Success(response.body()!!)
                     } else {
@@ -37,4 +40,5 @@ class DashboardViewModel @Inject constructor(
             }.start()
         }
     }
+
 }

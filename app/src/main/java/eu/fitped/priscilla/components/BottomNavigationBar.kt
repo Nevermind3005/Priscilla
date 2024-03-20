@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -33,13 +34,14 @@ import eu.fitped.priscilla.screen.Topics
 
 @Composable
 fun BottomNavigationBar(
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    ) {
     var navigationSelectedItem by remember {
         mutableIntStateOf(0)
     }
 
-    val navController = rememberNavController()
+    val localNavController = rememberNavController()
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -52,8 +54,8 @@ fun BottomNavigationBar(
                         selected = index == navigationSelectedItem,
                         onClick = { 
                             navigationSelectedItem = index
-                            navController.navigate(bottomNavigationItem.route) { 
-                                popUpTo(navController.graph.findStartDestination().id) {
+                            localNavController.navigate(bottomNavigationItem.route) {
+                                popUpTo(localNavController.graph.findStartDestination().id) {
                                     saveState = true
                                 }
                                 launchSingleTop = true
@@ -73,18 +75,18 @@ fun BottomNavigationBar(
         }
     ) { paddingValues ->
         NavHost(
-            navController = navController,
+            navController = localNavController,
             startDestination = NavigationItem.Dashboard.route,
             modifier = Modifier.padding(paddingValues = paddingValues)
         ) {
             composable(NavigationItem.Dashboard.route) {
-                Dashboard()
+                Dashboard(navController = navController)
             }
             composable(NavigationItem.Topics.route) {
                 Topics()
             }
             composable(NavigationItem.Preferences.route) {
-                Preferences()
+                Preferences(navController = navController)
             }
 
         }
@@ -122,5 +124,5 @@ data class BottomNavigationItem(
 @Preview
 @Composable
 fun BottomNavigationBarPreview() {
-    BottomNavigationBar()
+    BottomNavigationBar(navController = rememberNavController())
 }

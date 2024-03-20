@@ -3,10 +3,14 @@ package eu.fitped.priscilla.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import eu.fitped.priscilla.components.BottomNavigationBar
-import eu.fitped.priscilla.screen.Dashboard
+import androidx.navigation.navArgument
+import eu.fitped.priscilla.components.LessonList
+import eu.fitped.priscilla.screen.ChapterDetail
+import eu.fitped.priscilla.screen.CourseDetail
+import eu.fitped.priscilla.screen.Home
 import eu.fitped.priscilla.screen.Login
 
 @Composable
@@ -24,7 +28,40 @@ fun AppNavHost(
             Login(navController = navController)
         }
         composable(NavigationItem.Home.route) {
-            BottomNavigationBar()
+            Home(navController = navController)
+        }
+        composable(
+            NavigationItem.CourseDetail.route,
+            arguments = listOf(navArgument("courseId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            CourseDetail(
+                courseId =  backStackEntry.arguments?.getString("courseId"),
+                navController = navController
+            )
+        }
+        composable(
+            NavigationItem.ChapterDetail.route,
+            arguments = listOf(navArgument("chapterId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            ChapterDetail(
+                chapterId =  backStackEntry.arguments?.getString("chapterId"),
+                navController = navController
+            )
+        }
+        composable(
+            NavigationItem.LessonTasks.route,
+            arguments = listOf(
+                navArgument("courseId") { type = NavType.StringType },
+                navArgument("chapterId") { type = NavType.StringType },
+                navArgument("lessonId") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            LessonList(
+                courseId = backStackEntry.arguments?.getString("courseId"),
+                chapterId = backStackEntry.arguments?.getString("chapterId"),
+                lessonId = backStackEntry.arguments?.getString("lessonId"),
+                navController = navController
+            )
         }
     }
 }

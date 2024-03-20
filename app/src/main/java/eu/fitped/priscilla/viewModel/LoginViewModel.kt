@@ -3,15 +3,10 @@ package eu.fitped.priscilla.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import eu.fitped.priscilla.IJwtTokenManager
 import eu.fitped.priscilla.JwtTokenDataStore
 import eu.fitped.priscilla.model.LoginDto
 import eu.fitped.priscilla.model.TokenDto
-import eu.fitped.priscilla.navigation.NavigationItem
 import eu.fitped.priscilla.service.IAuthService
-import eu.fitped.priscilla.service.ICourseService
-import eu.fitped.priscilla.service.IUserService
-import eu.fitped.priscilla.util.DataState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -50,7 +45,8 @@ class LoginViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 _loginState.value = LoginState.Error("Login failed: ${e.message}")
-            }        }
+            }
+        }
     }
 
 }

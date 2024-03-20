@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class LanguageDto(
-    @JsonProperty("lang")
-    val language: String
+data class DetailScoreDto(
+    @JsonProperty("content_count")
+    val contentCount: String
 )

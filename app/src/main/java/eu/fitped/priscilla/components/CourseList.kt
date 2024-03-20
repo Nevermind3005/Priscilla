@@ -43,14 +43,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import eu.fitped.priscilla.R
 import eu.fitped.priscilla.model.CourseDto
+import eu.fitped.priscilla.navigation.NavigationItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CourseList(
     modifier: Modifier = Modifier,
     courseList: List<CourseDto>,
+    navController: NavHostController
 ) {
     val listState = rememberLazyListState()
     val isCompactHeader = remember { derivedStateOf { listState.firstVisibleItemScrollOffset > 5 || listState.firstVisibleItemIndex > 0 } }
@@ -62,10 +66,10 @@ fun CourseList(
                     .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)),
             ) {
                 AnimatedVisibility(visible = !isCompactHeader.value) {
-                    FullHeader()
+                    FullHeader(text = "Home")
                 }
                 AnimatedVisibility(visible = isCompactHeader.value) {
-                    CompactHeader()
+                    CompactHeader(text = "Home")
                 }
             }
         }
@@ -85,7 +89,12 @@ fun CourseList(
                     courseList[it].courseId
                 },
                 itemContent = { index ->
-                    CourseCard(courseDto = courseList[index])
+                    CourseCard(
+                        courseDto = courseList[index],
+                        onClick = {
+                            navController.navigate("COURSE_DETAIL/${courseList[index].courseId}")
+                        }
+                    )
                 }
             )
         }
@@ -122,18 +131,18 @@ fun CourseListPreview() {
         88
     )
     val courses = listOf<CourseDto>(courseDto, courseDto, courseDto)
-    CourseList(courseList = courses)
+    CourseList(courseList = courses, navController = rememberNavController())
 }
 
 @Composable
-fun FullHeader() {
+fun FullHeader(text: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Home",
+            text = text,
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.ExtraBold
         )
@@ -141,14 +150,14 @@ fun FullHeader() {
 }
 
 @Composable
-fun CompactHeader() {
+fun CompactHeader(text: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Home",
+            text = text,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.ExtraBold
         )
