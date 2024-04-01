@@ -6,6 +6,10 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -14,6 +18,7 @@ import eu.fitped.priscilla.components.tasks.CheckboxTask
 import eu.fitped.priscilla.components.tasks.RadioTask
 import eu.fitped.priscilla.components.tasks.TextTask
 import eu.fitped.priscilla.model.TaskContent
+import eu.fitped.priscilla.model.TaskContentText
 import eu.fitped.priscilla.model.TaskDto
 import eu.fitped.priscilla.model.TaskType
 
@@ -23,6 +28,8 @@ fun TasksPager(
     modifier: Modifier = Modifier,
     taskList: List<TaskDto>
 ) {
+    var answer by remember { mutableStateOf("") }
+
     val tasksPagerStat = rememberPagerState(pageCount = {
         taskList.size
     })
@@ -39,24 +46,47 @@ fun TasksPager(
                 val taskContent: TaskContent = mapper.readValue(currentTask.content)
                 Column {
                     StarRating(score = currentTask.score, maxScore = currentTask.maxScore)
-                    TextTask(taskContent = taskContent)
+                    TextTask(
+                        taskContent = taskContent,
+                        taskId = currentTask.taskId,
+                        activityType = "chapter",
+                        taskTypeId = currentTask.taskTypeId
+                    )
                 }
             }
             TaskType.RADIO_INPUT -> {
                 val taskContent: TaskContent = mapper.readValue(currentTask.content)
                 Column {
                     StarRating(score = currentTask.score, maxScore = currentTask.maxScore)
-                    RadioTask(taskContent = taskContent)
+                    RadioTask(
+                        taskContent = taskContent,
+                        taskId = currentTask.taskId,
+                        activityType = "chapter",
+                        taskTypeId = currentTask.taskTypeId
+                    )
                 }
             }
             TaskType.CHECKBOX_INPUT -> {
                 val taskContent: TaskContent = mapper.readValue(currentTask.content)
                 Column {
                     StarRating(score = currentTask.score, maxScore = currentTask.maxScore)
-                    CheckboxTask(taskContent = taskContent)
+                    CheckboxTask(
+                        taskContent = taskContent,
+                        taskId = currentTask.taskId,
+                        activityType = "chapter",
+                        taskTypeId = currentTask.taskTypeId
+                    )
                 }
             }
-            else -> Text(text = "Error")
+            TaskType.TEXT_INSIDE_ONE -> {
+                val taskContent: TaskContentText = mapper.readValue(currentTask.content)
+                Column {
+                    HTMLTextWithEditText(html = taskContent.content, editTextValue = "", onEditTextValueChanged = {
+                        answer = it
+                    })
+                }
+            }
+            else -> Text(text = "Error ${taskList[page].taskTypeId}")
         }
     }
 }

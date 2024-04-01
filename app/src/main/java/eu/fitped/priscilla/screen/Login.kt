@@ -23,7 +23,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.AutofillNode
+import androidx.compose.ui.autofill.AutofillType
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalAutofill
+import androidx.compose.ui.platform.LocalAutofillTree
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,10 +51,11 @@ import eu.fitped.priscilla.R
 import eu.fitped.priscilla.model.LoginDto
 import eu.fitped.priscilla.navigation.NavigationItem
 import eu.fitped.priscilla.ui.theme.Typography
-import eu.fitped.priscilla.util.DataState
+import eu.fitped.priscilla.util.autofill
 import eu.fitped.priscilla.util.isValidEmail
 import eu.fitped.priscilla.viewModel.LoginState
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Login(
     modifier: Modifier = Modifier,
@@ -72,6 +81,14 @@ fun Login(
     var isEmailValid by remember {
         mutableStateOf(true)
     }
+
+    val autofillNode = AutofillNode(
+        autofillTypes = listOf(AutofillType.EmailAddress),
+        onFill = { email = it }
+    )
+    val autofill = LocalAutofill.current
+
+    LocalAutofillTree.current += autofillNode
 
     Column(
         modifier = modifier
@@ -111,7 +128,19 @@ fun Login(
                     OutlinedTextField(
                         modifier = Modifier
                             .padding(vertical = 8.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .onGloballyPositioned {
+                                autofillNode.boundingBox = it.boundsInWindow()
+                            }
+                            .onFocusChanged { focusState ->
+                                autofill?.run {
+                                    if (focusState.isFocused) {
+                                        requestAutofillForNode(autofillNode)
+                                    } else {
+                                        cancelAutofillForNode(autofillNode)
+                                    }
+                                }
+                            },
                         value = email,
                         shape = MaterialTheme.shapes.extraLarge,
                         onValueChange = {
@@ -119,10 +148,9 @@ fun Login(
                             isEmailValid = it.isNotEmpty() && it.isValidEmail()
                         },
                         keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.None,
                             keyboardType = KeyboardType.Email,
-                            capitalization = KeyboardCapitalization.None
                         ),
-
                         supportingText = {
                             if (!isEmailValid) {
                                 Text(text = "Email is not valid")
@@ -136,7 +164,10 @@ fun Login(
                     OutlinedTextField(
                         modifier = Modifier
                             .padding(vertical = 8.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth().autofill(
+                                autofillTypes = listOf(AutofillType.Password),
+                                onFill = { password = it }
+                            ),
                         value = password,
                         shape = MaterialTheme.shapes.extraLarge,
                         onValueChange = {
@@ -145,7 +176,7 @@ fun Login(
                         },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Password,
-                            capitalization = KeyboardCapitalization.None
+                            capitalization = KeyboardCapitalization.None,
                         ),
                         supportingText = {
                             if (!isPasswordValid) {
@@ -161,12 +192,14 @@ fun Login(
                     Button(
                         modifier = Modifier.padding(vertical = 8.dp),
                         onClick = {
-                            val loginDto = LoginDto(email = email, password = password, username = email)
+                            val loginDto =
+                                LoginDto(email = email, password = password, username = email)
                             loginViewModel.login(loginDto)
                         }
                     ) {
                         Text(text = "Login")
                     }
+//                }
                 }
             }
             is LoginState.Loading -> Loading()

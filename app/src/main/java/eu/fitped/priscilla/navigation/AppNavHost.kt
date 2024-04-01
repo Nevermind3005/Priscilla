@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import eu.fitped.priscilla.UserState
 import eu.fitped.priscilla.components.LessonList
 import eu.fitped.priscilla.screen.ChapterDetail
 import eu.fitped.priscilla.screen.CourseDetail
@@ -19,6 +20,8 @@ fun AppNavHost(
     navController: NavHostController,
     startDestination: String = NavigationItem.Home.route,
 ) {
+    val vm = UserState.current
+    println(vm.isLoggedIn)
     NavHost(
         navController = navController,
         startDestination = startDestination,

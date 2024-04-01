@@ -12,3 +12,11 @@ data class TaskContent(
     @JsonProperty("answer_list")
     val answerList: List<AnswerDto>
 )
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class TaskContentText(
+    @JsonProperty("content")
+    val content: String,
+    @JsonProperty("help")
+    val help: String,
+)

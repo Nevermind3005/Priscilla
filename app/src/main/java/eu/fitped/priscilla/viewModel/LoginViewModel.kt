@@ -3,6 +3,7 @@ package eu.fitped.priscilla.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import eu.fitped.priscilla.JwtTokenDataStore
 import eu.fitped.priscilla.model.LoginDto
 import eu.fitped.priscilla.model.TokenDto
@@ -46,6 +47,13 @@ class LoginViewModel @Inject constructor(
             } catch (e: Exception) {
                 _loginState.value = LoginState.Error("Login failed: ${e.message}")
             }
+        }
+    }
+
+    fun logOut() {
+        viewModelScope.launch {
+//            _jwtTokenDataStore.clearTokens()
+            _loginState.value = LoginState.Idle
         }
     }
 

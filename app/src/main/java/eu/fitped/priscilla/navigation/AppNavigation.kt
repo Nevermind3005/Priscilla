@@ -1,6 +1,7 @@
 package eu.fitped.priscilla.navigation
 
 enum class Screen {
+    SPLASH,
     LOGIN,
     HOME,
     PREFERENCES,
@@ -12,9 +13,9 @@ enum class Screen {
 }
 
 sealed class NavigationItem(val route: String) {
+    object Splash : NavigationItem(Screen.SPLASH.name)
     object Home : NavigationItem(Screen.HOME.name)
     object Dashboard : NavigationItem(Screen.DASHBOARD.name)
-
     object Login: NavigationItem(Screen.LOGIN.name)
     object Preferences: NavigationItem(Screen.PREFERENCES.name)
     object Topics: NavigationItem(Screen.TOPICS.name)

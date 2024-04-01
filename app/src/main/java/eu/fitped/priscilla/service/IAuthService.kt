@@ -12,6 +12,4 @@ interface IAuthService {
     @POST(Endpoints.LOGIN)
     fun login(@Body body: LoginDto): Call<TokenDto>
 
-
-
 }
