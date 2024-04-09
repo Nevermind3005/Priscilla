@@ -2,8 +2,9 @@ package eu.fitped.priscilla.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,18 +27,17 @@ import eu.fitped.priscilla.model.TaskType
 @Composable
 fun TasksPager(
     modifier: Modifier = Modifier,
-    taskList: List<TaskDto>
+    taskList: List<TaskDto>,
+    pagerState: PagerState
 ) {
     var answer by remember { mutableStateOf("") }
 
-    val tasksPagerStat = rememberPagerState(pageCount = {
-        taskList.size
-    })
     val mapper = jacksonObjectMapper()
     HorizontalPager(
         modifier = modifier,
-        state = tasksPagerStat,
-        verticalAlignment = Alignment.Top
+        state = pagerState,
+        verticalAlignment = Alignment.Top,
+        userScrollEnabled = false
     ) { page ->
         val currentTask = taskList[page]
         when(TaskType.forId(taskList[page].taskTypeId)) {
@@ -80,7 +80,9 @@ fun TasksPager(
             }
             TaskType.TEXT_INSIDE_ONE -> {
                 val taskContent: TaskContentText = mapper.readValue(currentTask.content)
-                Column {
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     HTMLTextWithEditText(html = taskContent.content, editTextValue = "", onEditTextValueChanged = {
                         answer = it
                     })

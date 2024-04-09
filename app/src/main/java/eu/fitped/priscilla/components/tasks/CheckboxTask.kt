@@ -13,8 +13,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import eu.fitped.priscilla.R
 import eu.fitped.priscilla.components.HTMLText
 import eu.fitped.priscilla.model.TaskContent
 import eu.fitped.priscilla.model.TaskEvalDto
@@ -50,9 +52,11 @@ fun CheckboxTask(
                     .selectable(
                         selected = checkedItems.value[index],
                         onClick = {
-                            checkedItems.value = checkedItems.value.toMutableList().also {
-                                it[index] = !it[index]
-                            }
+                            checkedItems.value = checkedItems.value
+                                .toMutableList()
+                                .also {
+                                    it[index] = !it[index]
+                                }
                         }
                     )
                     .padding(horizontal = 8.dp),
@@ -86,7 +90,7 @@ fun CheckboxTask(
             )
             taskViewModel.evaluate(taskAnswer)
         }) {
-            Text(text = "Evaluate")
+            Text(text = stringResource(R.string.evaluate))
         }
     }
 

@@ -92,6 +92,7 @@ dependencies {
     implementation("io.github.aghajari:AnnotatedText:1.0.3")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.github.qawaz:compose-code-editor:2.0.3")
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
 }
 
 kapt {

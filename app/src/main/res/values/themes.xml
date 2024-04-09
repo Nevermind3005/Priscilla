@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.Priscilla" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Priscilla" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here -->
+        <!-- Add any customizations specific to your app -->
+    </style>
 </resources>

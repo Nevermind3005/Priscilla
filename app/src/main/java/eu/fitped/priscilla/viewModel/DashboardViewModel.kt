@@ -18,6 +18,7 @@ class DashboardViewModel @Inject constructor(
     val dataState: StateFlow<DataState> get() = _dataState
 
     init {
+        println("Init dashboard")
         fetchData()
     }
 

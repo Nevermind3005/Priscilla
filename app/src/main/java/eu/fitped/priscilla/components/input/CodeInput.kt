@@ -1,4 +1,4 @@
-package eu.fitped.priscilla.components
+package eu.fitped.priscilla.components.input
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

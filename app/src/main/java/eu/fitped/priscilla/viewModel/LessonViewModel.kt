@@ -28,12 +28,10 @@ class LessonViewModel @Inject constructor(
     private val _dataFetched = MutableLiveData(false) // Use MutableLiveData for controlled updates
     val dataFetched: LiveData<Boolean> get() = _dataFetched
 
-    // ... other parts of your ViewModel ...
-
     init {
-        if (!_dataFetched.value!!) {  // Access the LiveData value
+        if (!_dataFetched.value!!) {
             getLessonTasks()
-            _dataFetched.value = true // Update livedata
+            _dataFetched.value = true
         }
     }
 
@@ -53,6 +51,23 @@ class LessonViewModel @Inject constructor(
             } catch (e: Exception) {
                 _dataState.value = DataState.Error("Exception: ${e.message}")
             }
+        }
+    }
+
+    private fun getChapterLessons() {
+        viewModelScope.launch {
+            Thread {
+                try {
+                    val response = _courseService.getChapterLessons(chapterId = chapterId).execute()
+                    if (response.isSuccessful) {
+                        _dataState.value = DataState.Success(response.body()!!)
+                    } else {
+                        _dataState.value = DataState.Error("Request error")
+                    }
+                } catch (e: Exception) {
+                    _dataState.value = DataState.Error("Exception: ${e.message}")
+                }
+            }.start()
         }
     }
 }

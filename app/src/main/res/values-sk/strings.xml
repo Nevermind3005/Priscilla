@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="password">Heslo</string>
+    <string name="home">Domov</string>
+    <string name="language">Jazyk</string>
+    <string name="topics">Témy</string>
+    <string name="preferences">Nastavenia</string>
+    <string name="email_is_not_valid">Email nie je platný</string>
+    <string name="password_is_not_valid">Heslo nie je platné</string>
+    <string name="evaluate">Ohodnotiť</string>
+    <string name="login">Prihlásiť sa</string>
+    <string name="logout">Odhlásiť sa</string>
+    <string name="answer">Odpoveď</string>
+</resources>

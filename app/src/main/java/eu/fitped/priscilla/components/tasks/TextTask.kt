@@ -4,16 +4,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import eu.fitped.priscilla.R
 import eu.fitped.priscilla.components.HTMLText
 import eu.fitped.priscilla.model.TaskContent
 import eu.fitped.priscilla.model.TaskEvalDto
@@ -42,10 +45,14 @@ fun TextTask(
                 .fillMaxWidth(),
             html = taskContent.content
         )
-        TextField(
+        OutlinedTextField(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .fillMaxWidth(),
+            shape = MaterialTheme.shapes.extraLarge,
             value = answer,
             onValueChange = { answer = it },
-            label = { Text(text = "Answer") }
+            label = { Text(text = stringResource(R.string.answer)) }
         )
         Button(onClick = {
             val currentTime = System.currentTimeMillis() / 1000
@@ -58,7 +65,7 @@ fun TextTask(
             )
             taskViewModel.evaluate(taskAnswer)
         }) {
-            Text(text = "Evaluate")
+            Text(text = stringResource(R.string.evaluate))
         }
     }
 }

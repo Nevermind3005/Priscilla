@@ -9,6 +9,7 @@ import eu.fitped.priscilla.BASE_URL
 import eu.fitped.priscilla.IJwtTokenManager
 import eu.fitped.priscilla.service.IAuthService
 import eu.fitped.priscilla.service.ICourseService
+import eu.fitped.priscilla.service.ILanguageService
 import eu.fitped.priscilla.service.IUserService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -99,4 +100,9 @@ object RetrofitInstance {
     @Provides
     @Singleton
     fun provideCourseService(@AuthenticatedRetrofit retrofit: Retrofit) : ICourseService = retrofit.create(ICourseService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideLanguageService(@AuthenticatedRetrofit retrofit: Retrofit) : ILanguageService = retrofit.create(ILanguageService::class.java)
+
 }

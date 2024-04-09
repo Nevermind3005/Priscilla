@@ -8,9 +8,9 @@ data class UserDto(
     @JsonProperty("user_id")
     val userId: String,
     @JsonProperty("lang_id")
-    val langId: Int,
+    val langId: Long,
     @JsonProperty("country_id")
-    val countryId: Int,
+    val countryId: Long,
     @JsonProperty("name")
     val name: String,
     @JsonProperty("surname")
@@ -20,9 +20,9 @@ data class UserDto(
     @JsonProperty("role_id")
     val roleId: String,
     @JsonProperty("content_type_id")
-    val contentTypeId: Int,
+    val contentTypeId: Long,
     @JsonProperty("theme_id")
-    val themeId: Int,
+    val themeId: Long,
     @JsonProperty("theme_value")
     val themeValue: String,
     @JsonProperty("performance")

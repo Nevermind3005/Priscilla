@@ -1,6 +1,5 @@
 package eu.fitped.priscilla.screen
 
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -9,9 +8,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import eu.fitped.priscilla.components.ChapterList
-import eu.fitped.priscilla.components.LessonList
-import eu.fitped.priscilla.model.CourseDetailDto
 import eu.fitped.priscilla.model.LessonDto
 import eu.fitped.priscilla.util.DataState
 import eu.fitped.priscilla.viewModel.ChapterDetailViewModel

@@ -1,6 +1,5 @@
 package eu.fitped.priscilla.components
 
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,8 +15,6 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,19 +22,12 @@ import androidx.compose.ui.unit.dp
 import eu.fitped.priscilla.R
 import eu.fitped.priscilla.model.ChapterDto
 
-fun ImageBitmap.Companion.imageFromBytes(data: ByteArray): ImageBitmap {
-    val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
-    return bitmap.asImageBitmap()
-}
-
 @Composable
 fun ChapterCard(
     modifier: Modifier = Modifier,
     chapterDto: ChapterDto,
     onClick: (() -> Unit)? = null
 ) {
-//    val imageData = Base64.decode(chapterDto.chapterIcon, Base64.DEFAULT)
-//    val imageBitmap = ImageBitmap.imageFromBytes(imageData)
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -86,7 +76,6 @@ fun ChapterCard(
                 )
             }
         }
-//        Image(bitmap = imageBitmap, contentDescription = null)
     }
 }
 

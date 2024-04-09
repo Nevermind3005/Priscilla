@@ -2,10 +2,6 @@ package eu.fitped.priscilla.components
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -19,7 +15,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -27,6 +25,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import eu.fitped.priscilla.R
 import eu.fitped.priscilla.navigation.NavigationItem
 import eu.fitped.priscilla.screen.Dashboard
 import eu.fitped.priscilla.screen.Preferences
@@ -36,13 +35,26 @@ import eu.fitped.priscilla.screen.Topics
 fun BottomNavigationBar(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    ) {
+) {
     var navigationSelectedItem by remember {
         mutableIntStateOf(0)
     }
 
     val localNavController = rememberNavController()
 
+    localNavController.addOnDestinationChangedListener { _, destination, _ ->
+        when (destination.route) {
+            NavigationItem.Dashboard.route -> {
+                navigationSelectedItem = 0
+            }
+            NavigationItem.Topics.route -> {
+                navigationSelectedItem = 1
+            }
+            NavigationItem.Preferences.route -> {
+                navigationSelectedItem = 2
+            }
+        }
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -50,27 +62,26 @@ fun BottomNavigationBar(
             NavigationBar(
                 containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
             ) {
-                BottomNavigationItem().bottomNavigationItems().forEachIndexed {index, bottomNavigationItem ->
+                BottomNavigationItem(icon = painterResource(id = R.drawable.home_24px)).bottomNavigationItems().forEachIndexed {index, bottomNavigationItem ->
                     NavigationBarItem(
                         selected = index == navigationSelectedItem,
-                        onClick = { 
-                            navigationSelectedItem = index
+                        onClick = {
+                            localNavController.popBackStack()
                             localNavController.navigate(bottomNavigationItem.route) {
                                 popUpTo(localNavController.graph.findStartDestination().id) {
-                                    saveState = true
+                                    inclusive = true
                                 }
                                 launchSingleTop = true
-                                restoreState = true
-                            } 
-                                  },
+                            }
+                        },
                         icon = {
                             Icon(
-                                bottomNavigationItem.icon ,
+                                bottomNavigationItem.icon,
                                 contentDescription = bottomNavigationItem.label
                             )
                         },
                         label = { Text(text = bottomNavigationItem.label) },
-                        )
+                    )
                 }
             }
         }
@@ -89,33 +100,32 @@ fun BottomNavigationBar(
             composable(NavigationItem.Preferences.route) {
                 Preferences(navController = navController)
             }
-
         }
-
     }
 }
 
 data class BottomNavigationItem(
     val label : String = "",
-    val icon : ImageVector = Icons.Filled.Home,
+    val icon : Painter,
     val route : String = ""
 ) {
 
+    @Composable
     fun bottomNavigationItems() : List<BottomNavigationItem> {
         return listOf(
             BottomNavigationItem(
-                label = "Home",
-                icon = Icons.Filled.Home,
+                label = stringResource(R.string.home),
+                icon = painterResource(id = R.drawable.home_24px),
                 route = NavigationItem.Dashboard.route
             ),
             BottomNavigationItem(
-                label = "Topics",
-                icon = Icons.Filled.Search,
+                label = stringResource(R.string.topics),
+                icon = painterResource(id = R.drawable.dashboard_customize_24px),
                 route = NavigationItem.Topics.route
             ),
             BottomNavigationItem(
-                label = "Preferences",
-                icon = Icons.Filled.AccountCircle,
+                label = stringResource(R.string.preferences),
+                icon = painterResource(id = R.drawable.tune_24px),
                 route = NavigationItem.Preferences.route
             ),
         )
