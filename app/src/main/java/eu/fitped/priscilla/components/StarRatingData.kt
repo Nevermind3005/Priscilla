@@ -49,7 +49,12 @@ fun StarRating(
 fun StarRatingPreview() {
     Column {
         for (i in 0..10) {
-            StarRating(score = i, maxScore = 10)
+            StarRatingData(score = i, maxScore = 10)
         }
     }
 }
+
+data class StarRatingData (
+    val score: Int,
+    val maxScore: Int
+)

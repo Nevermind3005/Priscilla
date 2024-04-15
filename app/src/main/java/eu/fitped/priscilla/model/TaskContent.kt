@@ -20,3 +20,15 @@ data class TaskContentText(
     @JsonProperty("help")
     val help: String,
 )
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class TaskContentDraggable(
+    @JsonProperty("content")
+    val content: String,
+    @JsonProperty("help")
+    val help: String,
+    @JsonProperty("code")
+    val code: String,
+    @JsonProperty("codes")
+    val codes: List<String>,
+)

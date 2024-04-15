@@ -17,6 +17,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,11 +35,19 @@ fun TaskCard(
     modifier: Modifier = Modifier,
     onEvaluateButtonClick: () -> Unit = {},
     taskList: List<TaskDto>,
-    content: @Composable (List<TaskDto>, PagerState) -> Unit,
+    content: @Composable (List<TaskDto>, PagerState, MutableState<StarRatingData>, MutableState<() -> Unit>) -> Unit,
 ) {
     val tasksPagerStat = rememberPagerState(pageCount = {
         taskList.size
     })
+    val score = remember {
+        mutableStateOf(StarRatingData(0 ,100 ))
+    }
+
+    val onClick = remember {
+        mutableStateOf({})
+    }
+
     Scaffold(
         modifier = modifier,
         bottomBar = {
@@ -46,14 +57,14 @@ fun TaskCard(
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    IconButton(onClick = onEvaluateButtonClick, modifier = Modifier.padding(8.dp)) {
+                    IconButton(onClick = onClick.value, modifier = Modifier.padding(8.dp)) {
                         Icon(
                             painter = painterResource(R.drawable.task_alt_24px),
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
-                    StarRating(score = 5, maxScore = 10, modifier = Modifier.padding(8.dp))
+                    StarRating(score = score.value.score, maxScore = score.value.maxScore, modifier = Modifier.padding(8.dp))
 
                     val coroutineScope = rememberCoroutineScope()
 
@@ -108,7 +119,7 @@ fun TaskCard(
                 .padding(bottom = it.calculateBottomPadding()),
         )
         {
-            content(taskList, tasksPagerStat)
+            content(taskList, tasksPagerStat, score, onClick)
         }
     }
 }

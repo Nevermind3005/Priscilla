@@ -8,6 +8,7 @@ import androidx.compose.foundation.rememberScrollState
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -39,11 +40,13 @@ fun LessonList(
         is DataState.Success<*> -> {
             TaskCard(
                 taskList = (state as DataState.Success<TasksDto>).data.taskList
-            ) { taskDtos: List<TaskDto>, pagerState: PagerState ->
+            ) { taskDtos: List<TaskDto>, pagerState: PagerState, score: MutableState<StarRatingData>, onClick: MutableState<() -> Unit> ->
                 TasksPager(
                     modifier = Modifier.fillMaxSize(),
                     taskList = taskDtos,
                     pagerState = pagerState,
+                    score = score,
+                    onClick
                 )
             }
         }

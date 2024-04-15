@@ -11,4 +11,6 @@
     <string name="login">Prihlásiť sa</string>
     <string name="logout">Odhlásiť sa</string>
     <string name="answer">Odpoveď</string>
+    <string name="evaluating">Vyhodnocovanie!</string>
+    <string name="evaluated">Vyhodnotené</string>
 </resources>

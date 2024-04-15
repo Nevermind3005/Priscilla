@@ -5,19 +5,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material3.Button
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import eu.fitped.priscilla.R
 import eu.fitped.priscilla.components.HTMLText
+import eu.fitped.priscilla.components.TaskEvalAlert
 import eu.fitped.priscilla.model.TaskContent
 import eu.fitped.priscilla.model.TaskEvalDto
 import eu.fitped.priscilla.viewModel.TaskViewModel
@@ -28,9 +29,11 @@ fun RadioTask(
     taskContent: TaskContent,
     activityType: String,
     taskId: Long,
-    taskTypeId: Long
+    taskTypeId: Long,
+    onClick: MutableState<() -> Unit>
 ) {
     val taskViewModel: TaskViewModel = hiltViewModel()
+    val state by taskViewModel.dataState.collectAsState()
 
     val (selectedOption, onOptionSelected) = remember {
         mutableStateOf(taskContent.answerList.first().answer )
@@ -38,6 +41,22 @@ fun RadioTask(
 
     val startTime = System.currentTimeMillis() / 1000
 
+    onClick.value = {
+        val currentTime = System.currentTimeMillis() / 1000
+        val taskAnswer = TaskEvalDto(
+            activityType = activityType,
+            taskId = taskId,
+            taskTypeId = taskTypeId,
+            timeLength = currentTime - startTime,
+            answerList = listOf(selectedOption)
+        )
+        taskViewModel.evaluate(taskAnswer)
+    }
+
+    TaskEvalAlert(
+        state = state,
+        resetState = {taskViewModel.resetState()}
+    )
     Column(
         modifier = modifier
     ) {
@@ -71,19 +90,6 @@ fun RadioTask(
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
-        }
-        Button(onClick = {
-            val currentTime = System.currentTimeMillis() / 1000
-            val taskAnswer = TaskEvalDto(
-                activityType = activityType,
-                taskId = taskId,
-                taskTypeId = taskTypeId,
-                timeLength = currentTime - startTime,
-                answerList = listOf(selectedOption)
-            )
-            taskViewModel.evaluate(taskAnswer)
-        }) {
-            Text(text = stringResource(R.string.evaluate))
         }
     }
 }
