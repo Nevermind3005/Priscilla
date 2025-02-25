@@ -3,6 +3,7 @@ package eu.fitped.priscilla.components
 import android.annotation.SuppressLint
 import android.util.Log
 import android.view.ViewGroup
+import android.webkit.ConsoleMessage
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
@@ -55,7 +56,14 @@ fun WebViewWithInput(
                 }
 
                 webViewClient = WebViewClient()
-                webChromeClient = WebChromeClient()
+                webChromeClient = object : WebChromeClient() {
+                    override fun onConsoleMessage(message: ConsoleMessage?): Boolean {
+                        message?.let {
+                            Log.d("WebViewConsole", "${it.message()} -- From line ${it.lineNumber()} of ${it.sourceId()}")
+                        }
+                        return super.onConsoleMessage(message)
+                    }
+                }
                 loadData(
                     handleHtmlTemplate(html, backgroundColor, textColor),
                     "text/html",
@@ -93,6 +101,21 @@ fun HTMLTextWithEditText(
     WebViewWithInput(
         html = html.trimIndent(),
         onWebViewAvailable = onWebViewAvailable
+    )
+}
+
+@Composable
+fun HTMLTextWithDND(
+    modifier: Modifier = Modifier,
+    html: String,
+    fakes: List<String>,
+) {
+    var webView by remember { mutableStateOf<WebView?>(null) }
+    WebViewWithInput(
+        html = html.trimIndent(),
+        onWebViewAvailable = {
+            webView = it
+        },
     )
 }
 

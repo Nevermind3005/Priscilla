@@ -13,11 +13,13 @@ import androidx.compose.ui.Modifier
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import eu.fitped.priscilla.components.tasks.CheckboxTask
+import eu.fitped.priscilla.components.tasks.DNDTask
 import eu.fitped.priscilla.components.tasks.DraggableItemsTask
 import eu.fitped.priscilla.components.tasks.InlineTextTask
 import eu.fitped.priscilla.components.tasks.RadioTask
 import eu.fitped.priscilla.components.tasks.TextTask
 import eu.fitped.priscilla.model.TaskContent
+import eu.fitped.priscilla.model.TaskContentDND
 import eu.fitped.priscilla.model.TaskContentText
 import eu.fitped.priscilla.model.TaskContentDraggable
 import eu.fitped.priscilla.model.TaskDto
@@ -99,7 +101,13 @@ fun TasksPager(
                 )
             }
             TaskType.DND -> {
-                Text(text = "DND -> Not implemented")
+                val taskContent: TaskContentDND = mapper.readValue(currentTask.content)
+                DNDTask(
+                    taskContent = taskContent,
+                    activityType = "chapter",
+                    taskId = currentTask.taskId,
+                    taskTypeId = currentTask.taskTypeId
+                )
             }
             TaskType.DRAGGABLE -> {
                 val taskContent: TaskContentDraggable = mapper.readValue(currentTask.content)

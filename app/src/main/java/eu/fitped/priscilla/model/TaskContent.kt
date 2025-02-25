@@ -32,3 +32,11 @@ data class TaskContentDraggable(
     @JsonProperty("codes")
     val codes: List<String>,
 )
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class TaskContentDND(
+    @JsonProperty("content")
+    val content: String,
+    @JsonProperty("fakes")
+    val fakes: List<String>,
+)
