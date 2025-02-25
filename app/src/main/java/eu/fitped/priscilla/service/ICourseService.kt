@@ -1,6 +1,7 @@
 package eu.fitped.priscilla.service
 
 import eu.fitped.priscilla.Endpoints
+import eu.fitped.priscilla.model.CourseCategoriesDto
 import eu.fitped.priscilla.model.CourseDetailDto
 import eu.fitped.priscilla.model.CoursesDto
 import eu.fitped.priscilla.model.LessonDto
@@ -34,4 +35,7 @@ interface ICourseService {
 
     @POST(Endpoints.TASK_EVAL)
     suspend fun postEvalTask(@Body body: TaskEvalDto): Response<TaskEvalRes>
+
+    @GET(Endpoints.COURSE_CATEGORIES)
+    suspend fun getCourseCategories() : Response<CourseCategoriesDto>
 }

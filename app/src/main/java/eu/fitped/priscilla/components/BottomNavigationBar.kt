@@ -95,7 +95,7 @@ fun BottomNavigationBar(
                 Dashboard(navController = navController)
             }
             composable(NavigationItem.Topics.route) {
-                Topics()
+                Topics(navController = navController)
             }
             composable(NavigationItem.Preferences.route) {
                 Preferences(navController = navController)
