@@ -40,6 +40,9 @@ fun TaskCard(
     val tasksPagerStat = rememberPagerState(pageCount = {
         taskList.size
     })
+
+    // TODO BUG When task is evaluated the star rating in the card should change as well if the new rating is better than the old rating
+
     val score = remember {
         mutableStateOf(StarRatingData(0 ,100 ))
     }
