@@ -56,18 +56,16 @@ class LessonViewModel @Inject constructor(
 
     private fun getChapterLessons() {
         viewModelScope.launch {
-            Thread {
-                try {
-                    val response = _courseService.getChapterLessons(chapterId = chapterId).execute()
-                    if (response.isSuccessful) {
-                        _dataState.value = DataState.Success(response.body()!!)
-                    } else {
-                        _dataState.value = DataState.Error("Request error")
-                    }
-                } catch (e: Exception) {
-                    _dataState.value = DataState.Error("Exception: ${e.message}")
+            try {
+                val response = _courseService.getChapterLessons(chapterId = chapterId)
+                if (response.isSuccessful) {
+                    _dataState.value = DataState.Success(response.body()!!)
+                } else {
+                    _dataState.value = DataState.Error("Request error")
                 }
-            }.start()
+            } catch (e: Exception) {
+                _dataState.value = DataState.Error("Exception: ${e.message}")
+            }
         }
     }
 }

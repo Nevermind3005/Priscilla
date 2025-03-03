@@ -24,18 +24,16 @@ class DashboardViewModel @Inject constructor(
 
     private fun fetchData() {
         viewModelScope.launch {
-            Thread {
-                try {
-                    val response = courseService.getUserCourses().execute()
-                    if (response.isSuccessful) {
-                        _dataState.value = DataState.Success(response.body()!!)
-                    } else {
-                        _dataState.value = DataState.Error("Request error")
-                    }
-                } catch (e: Exception) {
-                    _dataState.value = DataState.Error("Exception: ${e.message}")
+            try {
+                val response = courseService.getUserCourses()
+                if (response.isSuccessful) {
+                    _dataState.value = DataState.Success(response.body()!!)
+                } else {
+                    _dataState.value = DataState.Error("Request error")
                 }
-            }.start()
+            } catch (e: Exception) {
+                _dataState.value = DataState.Error("Exception: ${e.message}")
+            }
         }
     }
 }

@@ -8,7 +8,6 @@ import eu.fitped.priscilla.model.LessonDto
 import eu.fitped.priscilla.model.TaskEvalDto
 import eu.fitped.priscilla.model.TaskEvalRes
 import eu.fitped.priscilla.model.TasksDto
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -18,13 +17,13 @@ import retrofit2.http.Path
 interface ICourseService {
 
     @GET(Endpoints.USER_COURSES)
-    fun getUserCourses(): Call<CoursesDto>
+    suspend fun getUserCourses(): Response<CoursesDto>
 
     @GET(Endpoints.COURSE_CHAPTERS)
-    fun getCourseChapters(@Path("courseId") courseId: String): Call<CourseDetailDto>
+    suspend fun getCourseChapters(@Path("courseId") courseId: String): Response<CourseDetailDto>
 
     @GET(Endpoints.CHAPTER_LESSONS)
-    fun getChapterLessons(@Path("chapterId") chapterId: String): Call<LessonDto>
+    suspend fun getChapterLessons(@Path("chapterId") chapterId: String): Response<LessonDto>
 
     @GET(Endpoints.LESSON_TASKS)
     suspend fun getLessonTasks(

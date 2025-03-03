@@ -3,7 +3,6 @@ package eu.fitped.priscilla.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ActivityRetainedScoped
 import eu.fitped.priscilla.JwtTokenDataStore
 import eu.fitped.priscilla.model.LoginDto
 import eu.fitped.priscilla.model.TokenDto
@@ -36,7 +35,7 @@ class LoginViewModel @Inject constructor(
             _loginState.value = LoginState.Loading
             try {
                 val response = withContext(Dispatchers.IO) { // Switch to IO dispatcher
-                    _loginService.login(loginDto).execute()
+                    _loginService.login(loginDto)
                 }
 
                 if (response.isSuccessful) {
