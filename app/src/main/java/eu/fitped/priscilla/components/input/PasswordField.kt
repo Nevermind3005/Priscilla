@@ -2,6 +2,7 @@ package eu.fitped.priscilla.components.input
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -17,9 +18,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.AutofillType
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -33,7 +37,8 @@ import eu.fitped.priscilla.util.autofill
 fun PasswordField(
     modifier: Modifier = Modifier,
     password: MutableState<String>,
-    isPasswordValid: MutableState<Boolean>
+    isPasswordValid: MutableState<Boolean>,
+    thisFieldFocusRequester: FocusRequester = FocusRequester()
 ) {
     var showPassword by remember { mutableStateOf(value = false) }
     OutlinedTextField(
@@ -46,7 +51,8 @@ fun PasswordField(
             .autofill(
                 autofillTypes = listOf(AutofillType.Password),
                 onFill = { password.value = it }
-            ),
+            )
+            .focusRequester(thisFieldFocusRequester),
         value = password.value,
         shape = MaterialTheme.shapes.extraLarge,
         onValueChange = {

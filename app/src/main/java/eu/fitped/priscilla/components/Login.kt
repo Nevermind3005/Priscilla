@@ -10,8 +10,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -29,6 +32,9 @@ fun Login(
     isEmailValid: MutableState<Boolean>,
     onLoginClick: () -> Unit = {}
 ) {
+    val passwordFocusRequester = remember { FocusRequester() }
+    val submitButtonFocusRequester = remember { FocusRequester() }
+
     Column(
         modifier = modifier.fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -45,10 +51,10 @@ fun Login(
                 fontWeight = FontWeight.Bold
             )
         }
-        EmailField(email = email, isEmailValid = isEmailValid)
-        PasswordField(password = password, isPasswordValid = isPasswordValid)
+        EmailField(email = email, isEmailValid = isEmailValid, nextFieldFocusRequester = passwordFocusRequester)
+        PasswordField(password = password, isPasswordValid = isPasswordValid, thisFieldFocusRequester = passwordFocusRequester)
         Button(
-            modifier = Modifier.padding(vertical = 8.dp),
+            modifier = Modifier.padding(vertical = 8.dp).focusRequester(submitButtonFocusRequester),
             onClick = onLoginClick,
             enabled = isEmailValid.value && isPasswordValid.value
         ) {
