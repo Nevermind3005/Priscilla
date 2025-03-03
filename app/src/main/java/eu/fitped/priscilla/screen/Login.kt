@@ -93,7 +93,14 @@ fun Login(
                 navController.popBackStack()
                 navController.navigate(NavigationItem.Home.route)
             }
-            is LoginState.Error -> Toast.makeText(context, "Error: ${(loginState as LoginState.Error).message}", Toast.LENGTH_SHORT).show()
+            is LoginState.Error -> {
+                Toast.makeText(
+                    context,
+                    "Error: ${(loginState as LoginState.Error).message}",
+                    Toast.LENGTH_LONG
+                ).show()
+                loginViewModel.resetState();
+            }
         }
     }
 }

@@ -37,16 +37,29 @@ class LoginViewModel @Inject constructor(
                 val response = withContext(Dispatchers.IO) { // Switch to IO dispatcher
                     _loginService.login(loginDto)
                 }
-
                 if (response.isSuccessful) {
                     _loginState.value = LoginState.Success(response.body()!!)
                     _jwtTokenDataStore.saveAccessToken(response.body()!!.accessToken)
                     _jwtTokenDataStore.saveRefreshToken(response.body()!!.refreshToken)
+                } else {
+                    when (response.code()) {
+                        401 -> _loginState.value = LoginState.Error("Invalid Credentials")
+                        else -> {
+                            val errorBody = response.errorBody()?.string()
+                            _loginState.value = LoginState.Error(
+                                errorBody ?: "Error: ${response.code()}"
+                            )
+                        }
+                    }
                 }
             } catch (e: Exception) {
                 _loginState.value = LoginState.Error("Login failed: ${e.message}")
             }
         }
+    }
+
+    fun resetState() {
+        _loginState.value = LoginState.Idle;
     }
 
     fun logOut() {

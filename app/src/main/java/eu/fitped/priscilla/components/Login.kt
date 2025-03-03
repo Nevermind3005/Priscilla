@@ -22,7 +22,7 @@ import eu.fitped.priscilla.R
 import eu.fitped.priscilla.components.input.EmailField
 import eu.fitped.priscilla.components.input.PasswordField
 import eu.fitped.priscilla.ui.theme.Typography
-//TODO fix invalid credentials
+
 @Composable
 fun Login(
     modifier: Modifier = Modifier,
