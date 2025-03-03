@@ -1,6 +1,5 @@
 package eu.fitped.priscilla.components
 
-import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -14,13 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun ScreenHeader(
     listState: LazyListState,
-    @StringRes headerResId: Int,
+    headerText: String,
     content: @Composable (PaddingValues) -> Unit
 ) {
     val isCompactHeader = remember { derivedStateOf { listState.firstVisibleItemScrollOffset > 5 || listState.firstVisibleItemIndex > 0 } }
@@ -33,10 +31,10 @@ fun ScreenHeader(
                     .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)),
             ) {
                 AnimatedVisibility(visible = !isCompactHeader.value) {
-                    FullHeader(text = stringResource(headerResId))
+                    FullHeader(text = headerText)
                 }
                 AnimatedVisibility(visible = isCompactHeader.value) {
-                    CompactHeader(text = stringResource(headerResId))
+                    CompactHeader(text = headerText)
                 }
             }
         }
