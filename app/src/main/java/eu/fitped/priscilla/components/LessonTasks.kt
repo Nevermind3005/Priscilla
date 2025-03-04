@@ -20,9 +20,10 @@ import eu.fitped.priscilla.screen.Loading
 import eu.fitped.priscilla.util.DataState
 import eu.fitped.priscilla.viewModel.LessonViewModel
 
+// TODO refactor
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun LessonList(
+fun LessonTasks(
     courseId: String?,
     chapterId: String?,
     lessonId: String?,

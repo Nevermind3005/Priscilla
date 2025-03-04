@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import eu.fitped.priscilla.UserState
-import eu.fitped.priscilla.components.LessonList
+import eu.fitped.priscilla.components.LessonTasks
 import eu.fitped.priscilla.screen.ChapterDetail
 import eu.fitped.priscilla.screen.CourseDetail
 import eu.fitped.priscilla.screen.Home
@@ -59,7 +59,7 @@ fun AppNavHost(
                 navArgument("lessonId") { type = NavType.StringType }
             )
         ) { backStackEntry ->
-            LessonList(
+            LessonTasks(
                 courseId = backStackEntry.arguments?.getString("courseId"),
                 chapterId = backStackEntry.arguments?.getString("chapterId"),
                 lessonId = backStackEntry.arguments?.getString("lessonId"),
