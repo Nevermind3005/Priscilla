@@ -8,24 +8,21 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import eu.fitped.priscilla.R
-import eu.fitped.priscilla.model.CourseCategoryDto
-import eu.fitped.priscilla.navigation.Screen
+import eu.fitped.priscilla.model.CourseCategoryAreaInfo
 
 @Composable
-fun CourseCategoryList(
+fun AreaList(
     modifier: Modifier = Modifier,
-    courseCategoryList: List<CourseCategoryDto>,
-    navController: NavHostController
+    navController: NavHostController,
+    categoryName: String,
+    courseCategoryAreaInfo: List<CourseCategoryAreaInfo>
 ) {
     val listState = rememberLazyListState()
-
     ScreenHeader(
         listState = listState,
-        headerText = stringResource(R.string.topics)
+        headerText = categoryName,
     ) { padding ->
         LazyColumn(
             modifier = modifier
@@ -37,16 +34,13 @@ fun CourseCategoryList(
             contentPadding = PaddingValues(vertical = 16.dp),
         ) {
             items(
-                count = courseCategoryList.size,
+                count = courseCategoryAreaInfo.size,
                 key = {
-                    courseCategoryList[it].categoryId
+                    courseCategoryAreaInfo[it].id
                 },
                 itemContent = { index ->
-                    CourseCategoryCard(
-                        courseCategoryDto = courseCategoryList[index],
-                        onClick = {
-                            navController.navigate("${Screen.COURSE_CATEGORY_AREAS.name}/${courseCategoryList[index].categoryId}")
-                        }
+                    AreaCard(
+                        areaDto = courseCategoryAreaInfo[index],
                     )
                 }
             )

@@ -2,6 +2,7 @@ package eu.fitped.priscilla.service
 
 import eu.fitped.priscilla.Endpoints
 import eu.fitped.priscilla.model.CourseCategoriesDto
+import eu.fitped.priscilla.model.CourseCategoryAreasDto
 import eu.fitped.priscilla.model.CourseDetailDto
 import eu.fitped.priscilla.model.CoursesDto
 import eu.fitped.priscilla.model.LessonDto
@@ -37,4 +38,7 @@ interface ICourseService {
 
     @GET(Endpoints.COURSE_CATEGORIES)
     suspend fun getCourseCategories() : Response<CourseCategoriesDto>
+
+    @GET(Endpoints.COURSE_AREAS)
+    suspend fun getCourseCategoryAreas(@Path("categoryId") categoryId: String): Response<CourseCategoryAreasDto>
 }

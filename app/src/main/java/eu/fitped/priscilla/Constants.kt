@@ -15,8 +15,9 @@ object Endpoints {
     const val USER_CHANGE_LANGUAGE = "change-user-language"
     const val LANGUAGES = "languages"
     const val COURSE_CATEGORIES = "get-categories2"
-    const val COURSE_AREA = "get-areas"
-    const val AREA_COURSED = "get-areas"
+    const val COURSE_AREAS = "get-areas/{categoryId}"
+    const val AREA_COURSES_ALL = "area-all-courses/{areaId}"
+    const val COURSE_PREVIEW = "course-preview/{courseId}"
 }
 
 const val ACCESS_TOKEN_KEY_STRING = "a_jwt"
