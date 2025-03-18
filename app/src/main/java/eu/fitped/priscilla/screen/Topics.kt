@@ -6,8 +6,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import eu.fitped.priscilla.components.CourseCategoryList
+import eu.fitped.priscilla.components.core.GenericList
+import eu.fitped.priscilla.components.core.SimpleCard
 import eu.fitped.priscilla.model.CourseCategoriesDto
+import eu.fitped.priscilla.navigation.Screen
 import eu.fitped.priscilla.util.DataState
 import eu.fitped.priscilla.viewModel.TopicsViewModel
 
@@ -20,11 +22,21 @@ fun Topics(
 
     when (state) {
         is DataState.Loading -> Loading()
-        is DataState.Success<*> -> CourseCategoryList(
-            courseCategoryList = (state as DataState.Success<CourseCategoriesDto>).data.list,
-            navController = navController
-        )
-
+        is DataState.Success<*> -> {
+            val data = (state as DataState.Success<CourseCategoriesDto>).data
+            GenericList(
+                headerText = data.title,
+                items = data.list,
+                itemKey = { it.categoryId }
+            ) {
+                SimpleCard(
+                    cardText = it.title,
+                    onClick = {
+                        navController.navigate("${Screen.COURSE_CATEGORY_AREAS.name}/${it.categoryId}")
+                    }
+                )
+            }
+        }
         is DataState.Error -> {
             Text("Error: ${(state as DataState.Error).message}")
         }
