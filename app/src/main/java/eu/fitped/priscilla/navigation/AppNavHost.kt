@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import eu.fitped.priscilla.UserState
 import eu.fitped.priscilla.components.LessonTasks
+import eu.fitped.priscilla.screen.AreaDetail
 import eu.fitped.priscilla.screen.ChapterDetail
 import eu.fitped.priscilla.screen.CourseCategoryDetail
 import eu.fitped.priscilla.screen.CourseDetail
@@ -73,6 +74,15 @@ fun AppNavHost(
         ) { backStackEntry ->
             CourseCategoryDetail(
                 categoryId = backStackEntry.arguments?.getString("categoryId"),
+                navController = navController
+            )
+        }
+        composable(
+            NavigationItem.AreaDetail.route,
+            arguments = listOf(navArgument("areaId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            AreaDetail(
+                areaId = backStackEntry.arguments?.getString("areaId"),
                 navController = navController
             )
         }

@@ -1,4 +1,4 @@
-package eu.fitped.priscilla.components
+package eu.fitped.priscilla.components.core
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,21 +9,21 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import eu.fitped.priscilla.model.CourseCategoryAreaInfo
-import eu.fitped.priscilla.navigation.Screen
+import eu.fitped.priscilla.components.ScreenHeader
 
 @Composable
-fun AreaList(
+fun <T> GenericList(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
-    categoryName: String,
-    courseCategoryAreaInfo: List<CourseCategoryAreaInfo>
+    headerText: String,
+    items: List<T>,
+    itemKey: (T) -> Any,
+    itemContent: @Composable (T) -> Unit
 ) {
     val listState = rememberLazyListState()
+
     ScreenHeader(
         listState = listState,
-        headerText = categoryName,
+        headerText = headerText,
     ) { padding ->
         LazyColumn(
             modifier = modifier
@@ -35,17 +35,12 @@ fun AreaList(
             contentPadding = PaddingValues(vertical = 16.dp),
         ) {
             items(
-                count = courseCategoryAreaInfo.size,
-                key = {
-                    courseCategoryAreaInfo[it].id
+                count = items.size,
+                key = { index ->
+                    itemKey(items[index])
                 },
                 itemContent = { index ->
-                    AreaCard(
-                        areaDto = courseCategoryAreaInfo[index],
-                        onClick = {
-                            navController.navigate("${Screen.AREA_DETAIL.name}/${courseCategoryAreaInfo[index].id}")
-                        }
-                    )
+                    itemContent(items[index])
                 }
             )
         }
