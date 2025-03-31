@@ -2,7 +2,6 @@ package eu.fitped.priscilla.viewModel
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import eu.fitped.priscilla.JwtTokenDataStore
@@ -10,8 +9,6 @@ import eu.fitped.priscilla.model.LanguagePostDto
 import eu.fitped.priscilla.service.ILanguageService
 import eu.fitped.priscilla.service.IUserService
 import eu.fitped.priscilla.util.DataState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,10 +17,7 @@ class PreferencesViewModel @Inject constructor(
     private val _jwtTokenDataStore: JwtTokenDataStore,
     private val _languageService: ILanguageService,
     private val _userService: IUserService,
-) : ViewModel() {
-
-    private val _dataState = MutableStateFlow<DataState>(DataState.Loading)
-    val dataState: StateFlow<DataState> get() = _dataState
+) : ViewModelBase() {
 
     init {
         println("Init prefs")
@@ -37,19 +31,19 @@ class PreferencesViewModel @Inject constructor(
     }
 
     private fun getData() {
-        _dataState.value = DataState.Loading
+        innerDataState.value = DataState.Loading
         println("Get Data")
         viewModelScope.launch {
             try {
                 val langResponse = _languageService.getLanguages()
                 val userResponse = _userService.getUser()
                 if (langResponse.isSuccessful && userResponse.isSuccessful) {
-                    _dataState.value = DataState.Success(Pair(langResponse.body()!!, userResponse.body()!!))
+                    innerDataState.value = DataState.Success(Pair(langResponse.body()!!, userResponse.body()!!))
                 } else {
-                    _dataState.value = DataState.Error("Request error")
+                    innerDataState.value = DataState.Error("Request error")
                 }
             } catch (e: Exception) {
-                _dataState.value = DataState.Error("Exception: ${e.message}")
+                innerDataState.value = DataState.Error("Exception: ${e.message}")
             }
         }
     }
@@ -63,7 +57,7 @@ class PreferencesViewModel @Inject constructor(
                     getData()
                 }
             } catch (e: Exception) {
-                _dataState.value = DataState.Error("Exception: ${e.message}")
+                innerDataState.value = DataState.Error("Exception: ${e.message}")
             }
         }
     }

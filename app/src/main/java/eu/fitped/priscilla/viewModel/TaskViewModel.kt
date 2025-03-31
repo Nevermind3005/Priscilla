@@ -19,10 +19,6 @@ class TaskViewModel @Inject constructor(
     private val _dataState = MutableStateFlow<DataStateTaskEval>(DataStateTaskEval.Idle)
     val dataState: StateFlow<DataStateTaskEval> get() = _dataState
 
-    init {
-        println("ViewModelInit")
-    }
-
     fun evaluate(taskEvalDto: TaskEvalDto) {
         viewModelScope.launch {
             _dataState.value = DataStateTaskEval.Loading

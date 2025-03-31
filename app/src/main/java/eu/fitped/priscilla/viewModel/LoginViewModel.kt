@@ -34,7 +34,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             _loginState.value = LoginState.Loading
             try {
-                val response = withContext(Dispatchers.IO) { // Switch to IO dispatcher
+                val response = withContext(Dispatchers.IO) {
                     _loginService.login(loginDto)
                 }
                 if (response.isSuccessful) {
@@ -61,14 +61,6 @@ class LoginViewModel @Inject constructor(
     fun resetState() {
         _loginState.value = LoginState.Idle;
     }
-
-    fun logOut() {
-        viewModelScope.launch {
-//            _jwtTokenDataStore.clearTokens()
-            _loginState.value = LoginState.Idle
-        }
-    }
-
 }
 
 sealed class LoginState {
