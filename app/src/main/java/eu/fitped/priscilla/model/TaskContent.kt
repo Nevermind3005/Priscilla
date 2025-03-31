@@ -40,3 +40,29 @@ data class TaskContentDND(
     @JsonProperty("fakes")
     val fakes: List<String>,
 )
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class TaskContentCodeFile(
+    @JsonProperty("rContent")
+    val rContent: String,
+    @JsonProperty("aContent")
+    val aContent: String
+)
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class TaskContentCode(
+    @JsonProperty("title")
+    val content: String,
+    @JsonProperty("assignment")
+    val assignment: String,
+    @JsonProperty("files")
+    val files: List<TaskContentCodeFile>,
+    @JsonProperty("testCases")
+    val testCases: String,
+    @JsonProperty("filesToKeep")
+    val filesToKeep: List<String>,
+    @JsonProperty("configFiles")
+    val configFiles: List<String>,
+    @JsonProperty("help")
+    val help: String
+)

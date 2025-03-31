@@ -93,6 +93,10 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.github.qawaz:compose-code-editor:2.0.3")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation(platform("io.github.Rosemoe.sora-editor:bom:0.23.2"))
+    implementation("io.github.Rosemoe.sora-editor:editor")
+    implementation("io.github.Rosemoe.sora-editor:language-java:0.23.2")
+    implementation("io.github.Rosemoe.sora-editor:language-treesitter:0.23.2")
 }
 
 kapt {

@@ -13,12 +13,14 @@ import androidx.compose.ui.Modifier
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import eu.fitped.priscilla.components.tasks.CheckboxTask
+import eu.fitped.priscilla.components.tasks.CodeTask
 import eu.fitped.priscilla.components.tasks.DNDTask
 import eu.fitped.priscilla.components.tasks.DraggableItemsTask
 import eu.fitped.priscilla.components.tasks.InlineTextTask
 import eu.fitped.priscilla.components.tasks.RadioTask
 import eu.fitped.priscilla.components.tasks.TextTask
 import eu.fitped.priscilla.model.TaskContent
+import eu.fitped.priscilla.model.TaskContentCode
 import eu.fitped.priscilla.model.TaskContentDND
 import eu.fitped.priscilla.model.TaskContentText
 import eu.fitped.priscilla.model.TaskContentDraggable
@@ -121,7 +123,11 @@ fun TasksPager(
                 )
             }
             TaskType.CODE -> {
-                Text(text = "CODE -> Not implemented")
+                val taskContent: TaskContentCode = mapper.readValue(currentTask.content)
+                CodeTask(
+                    taskContent = taskContent
+                )
+                println(currentTask.content)
             }
             else -> {
                 Text(text = "Error")
