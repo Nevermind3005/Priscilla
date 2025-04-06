@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -19,6 +18,7 @@ import eu.fitped.priscilla.components.tasks.DraggableItemsTask
 import eu.fitped.priscilla.components.tasks.InlineTextTask
 import eu.fitped.priscilla.components.tasks.RadioTask
 import eu.fitped.priscilla.components.tasks.TextTask
+import eu.fitped.priscilla.model.GlobalsCodeTask
 import eu.fitped.priscilla.model.TaskContent
 import eu.fitped.priscilla.model.TaskContentCode
 import eu.fitped.priscilla.model.TaskContentDND
@@ -124,13 +124,30 @@ fun TasksPager(
             }
             TaskType.CODE -> {
                 val taskContent: TaskContentCode = mapper.readValue(currentTask.content)
+                val globals: GlobalsCodeTask = mapper.readValue(currentTask.globals)
                 CodeTask(
-                    taskContent = taskContent
-                )
+                    taskContent = taskContent,
+                    activityType = "chapter",
+                    taskId = currentTask.taskId,
+                    taskTypeId = currentTask.taskTypeId,
+                    onClick = onClick,
+                    globals = globals
+                    )
                 println(currentTask.content)
             }
             else -> {
-                Text(text = "Error")
+                // Task id 9 code
+                val taskContent: TaskContentCode = mapper.readValue(currentTask.content)
+                val globals: GlobalsCodeTask = mapper.readValue(currentTask.globals)
+                CodeTask(
+                    taskContent = taskContent,
+                    activityType = "chapter",
+                    taskId = currentTask.taskId,
+                    taskTypeId = currentTask.taskTypeId,
+                    onClick = onClick,
+                    globals = globals
+                )
+                println(currentTask.content)
             }
         }
     }

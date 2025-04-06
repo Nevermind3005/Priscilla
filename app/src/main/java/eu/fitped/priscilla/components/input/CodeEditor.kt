@@ -27,6 +27,10 @@ fun CodeEditorCmp(
 ) {
     var editor by remember { mutableStateOf<CodeEditor?>(null) }
 
+    val initialCodeRef = remember(initialCode) { initialCode }
+
+    var isInitialized by remember { mutableStateOf(false) }
+
     AndroidView(
         modifier = modifier,
         factory = { context ->
@@ -37,7 +41,8 @@ fun CodeEditorCmp(
                 )
 
                 val codeEditor = makeCodeEditor(context, editorLanguage)
-                codeEditor.setText(initialCode)
+                codeEditor.setText(initialCodeRef)
+                isInitialized = true
 
                 addView(codeEditor, LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -48,15 +53,14 @@ fun CodeEditorCmp(
             }
         },
         update = { view ->
-            editor?.apply {
-                if (text.toString() != initialCode) {
-                    setText(initialCode)
-                }
+            if (!isInitialized && editor != null) {
+                editor?.setText(initialCodeRef)
+                isInitialized = true
             }
         },
         onRelease = {
             println("Release Sora")
-            editor?.release();
+            editor?.release()
         }
     )
 

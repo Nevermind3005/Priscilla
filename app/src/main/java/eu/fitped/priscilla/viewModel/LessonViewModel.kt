@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import eu.fitped.priscilla.service.ICourseService
 import eu.fitped.priscilla.util.DataState
+import eu.fitped.priscilla.viewModel.base.ViewModelBase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

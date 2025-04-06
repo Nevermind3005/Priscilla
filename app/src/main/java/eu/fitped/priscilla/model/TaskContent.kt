@@ -52,7 +52,7 @@ data class TaskContentCodeFile(
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class TaskContentCode(
     @JsonProperty("title")
-    val content: String,
+    val title: String,
     @JsonProperty("assignment")
     val assignment: String,
     @JsonProperty("files")
@@ -65,4 +65,22 @@ data class TaskContentCode(
     val configFiles: List<String>,
     @JsonProperty("help")
     val help: String
+)
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class GlobalsCodeTask(
+    @JsonProperty("files")
+    val files: Files
+)
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class Files(
+    @JsonProperty("files")
+    val files: List<String>,
+
+    @JsonProperty("filesToKeep")
+    val filesToKeep: List<String>,
+
+    @JsonProperty("configFiles")
+    val configFiles: List<String>
 )

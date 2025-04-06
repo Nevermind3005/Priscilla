@@ -1,4 +1,4 @@
-package eu.fitped.priscilla.viewModel
+package eu.fitped.priscilla.viewModel.base
 
 import androidx.lifecycle.ViewModel
 import eu.fitped.priscilla.util.DataState

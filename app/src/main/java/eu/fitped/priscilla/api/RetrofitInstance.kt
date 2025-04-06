@@ -11,6 +11,8 @@ import eu.fitped.priscilla.service.IAuthService
 import eu.fitped.priscilla.service.ICourseService
 import eu.fitped.priscilla.service.ILanguageService
 import eu.fitped.priscilla.service.IUserService
+import eu.fitped.priscilla.service.websocket.IWebSocketService
+import eu.fitped.priscilla.service.websocket.WebSocketService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -49,6 +51,12 @@ object RetrofitInstance {
         .addConverterFactory(JacksonConverterFactory.create(mapper))
         .client(okHttpClient)
         .build()
+
+    @Provides
+    @Singleton
+    fun provideWebSocketService(okHttpClient: OkHttpClient): IWebSocketService {
+        return WebSocketService(okHttpClient)
+    }
 
     @Provides
     @Singleton

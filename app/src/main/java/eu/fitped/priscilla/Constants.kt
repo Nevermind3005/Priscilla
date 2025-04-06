@@ -1,6 +1,7 @@
 package eu.fitped.priscilla
 
 const val BASE_URL = "https://app.priscilla.fitped.eu/"
+const val CODE_EVAL_MONITOR_URL_WSS = "wss://vpl.ki.fpvai.ukf.sk/{monitorTicket}/monitor"
 const val DATA_STORE_PREFERENCES = "user_preferences"
 
 object Endpoints {
@@ -18,6 +19,10 @@ object Endpoints {
     const val COURSE_AREAS = "get-areas/{categoryId}"
     const val AREA_COURSES_ALL = "area-all-courses/{areaId}"
     const val COURSE_PREVIEW = "course-preview/{courseId}"
+    const val SAVE_PROGRAM = "save-program3"
+    const val LOAD_PROGRAM = "load-program3/{programId}"
+    const val VPL_RUN_TEST = "vpl-run-test3"
+    const val VPL_GET_RESULT = "vpl-get-result33"
 }
 
 const val ACCESS_TOKEN_KEY_STRING = "a_jwt"

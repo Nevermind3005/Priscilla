@@ -3,8 +3,6 @@ package eu.fitped.priscilla.components
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,10 +29,6 @@ fun LessonTasks(
 ) {
     val lessonViewModel: LessonViewModel = hiltViewModel()
     val state by lessonViewModel.dataState.collectAsState()
-    val scroll = rememberScrollState(0)
-    val pagerState = rememberPagerState {
-        10
-    }
 
     when (state) {
         is DataState.Loading -> Loading()
@@ -54,26 +48,3 @@ fun LessonTasks(
         is DataState.Error -> Text("Error: ${(state as DataState.Error).message}")
     }
 }
-
-//HTMLText(
-//modifier = Modifier.verticalScroll(scroll),
-//html = (state as DataState.Success<TasksDto>).data.taskList.first().content
-//)
-
-//@Composable
-//fun ShowBasicHTML(
-//    html: String,
-//) {
-//    val htmlText = "This is <b>bold</b> and <i>italic</i> text"
-//
-//    Column {
-//        Text("Other composable elements...")
-//        AndroidView(
-//            factory = { context ->
-//                TextView(context).apply {
-//                    text = Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT),
-//                }
-//            }
-//        )
-//    }
-//}
