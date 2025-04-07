@@ -13,6 +13,7 @@ import eu.fitped.priscilla.screen.AreaDetail
 import eu.fitped.priscilla.screen.ChapterDetail
 import eu.fitped.priscilla.screen.CourseCategoryDetail
 import eu.fitped.priscilla.screen.CourseDetail
+import eu.fitped.priscilla.screen.CoursePreview
 import eu.fitped.priscilla.screen.Home
 import eu.fitped.priscilla.screen.Login
 
@@ -83,6 +84,15 @@ fun AppNavHost(
         ) { backStackEntry ->
             AreaDetail(
                 areaId = backStackEntry.arguments?.getString("areaId"),
+                navController = navController
+            )
+        }
+        composable(
+            NavigationItem.CoursePreview.route,
+            arguments = listOf(navArgument("courseId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            CoursePreview(
+                courseId = backStackEntry.arguments?.getString("courseId"),
                 navController = navController
             )
         }

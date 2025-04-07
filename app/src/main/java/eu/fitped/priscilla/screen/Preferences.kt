@@ -2,7 +2,6 @@ package eu.fitped.priscilla.screen
 
 import android.content.Context
 import android.content.pm.PackageManager
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -66,13 +65,6 @@ fun Preferences(
                 .padding(padding)
                 .fillMaxSize(),
         ) {
-//        Button(onClick = {
-//            preferencesViewModel.logout()
-//            navController.popBackStack()
-//            navController.navigate(NavigationItem.Login.route)
-//        }) {
-//            Text(text = "Logout",)
-//        }
             when (state) {
                 is DataState.Loading -> Loading()
                 is DataState.Success<*> -> {
@@ -119,8 +111,8 @@ fun Preferences(
                 Icon(painter = painterResource(id = R.drawable.logout_24px), contentDescription = null)
             },
             modifier = Modifier
-                .offset(x = (-16).dp, y = (-16).dp) // Adjust offset as needed
-                .align(Alignment.BottomEnd), // Align to bottom start
+                .offset(x = (-16).dp, y = (-16).dp)
+                .align(Alignment.BottomEnd),
         )
         Text(modifier = Modifier.align(Alignment.BottomStart), text = getAppVersion(context = context))
     }

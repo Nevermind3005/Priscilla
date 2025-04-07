@@ -11,7 +11,8 @@ enum class Screen {
     CHAPTER_DETAIL,
     LESSON_TASKS,
     COURSE_CATEGORY_AREAS,
-    AREA_DETAIL
+    AREA_DETAIL,
+    COURSE_PREVIEW
 }
 
 sealed class NavigationItem(val route: String) {
@@ -26,4 +27,5 @@ sealed class NavigationItem(val route: String) {
     object LessonTasks: NavigationItem("${Screen.LESSON_TASKS.name}/{courseId}/{chapterId}/{lessonId}")
     object CourseCategoryAreas: NavigationItem("${Screen.COURSE_CATEGORY_AREAS.name}/{categoryId}")
     object AreaDetail: NavigationItem("${Screen.AREA_DETAIL.name}/{areaId}")
+    object CoursePreview: NavigationItem("${Screen.COURSE_PREVIEW}/{courseId}")
 }

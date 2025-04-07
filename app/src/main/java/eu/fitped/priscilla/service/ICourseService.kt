@@ -5,7 +5,9 @@ import eu.fitped.priscilla.model.AreaDto
 import eu.fitped.priscilla.model.CourseCategoriesDto
 import eu.fitped.priscilla.model.CourseCategoryAreasDto
 import eu.fitped.priscilla.model.CourseDetailDto
+import eu.fitped.priscilla.model.CoursePreviewDto
 import eu.fitped.priscilla.model.CoursesDto
+import eu.fitped.priscilla.model.EnrollCourseResDto
 import eu.fitped.priscilla.model.LessonDto
 import eu.fitped.priscilla.model.code.SaveProgramReqDto
 import eu.fitped.priscilla.model.TaskEvalDto
@@ -67,4 +69,10 @@ interface ICourseService {
 
     @GET(Endpoints.AREA_COURSES_ALL)
     suspend fun getAreaCourses(@Path("areaId") areaId: String): Response<AreaDto>
+
+    @GET(Endpoints.COURSE_PREVIEW)
+    suspend fun getCoursePreview(@Path("courseId") courseId: String) : Response<CoursePreviewDto>
+
+    @POST(Endpoints.ENROLL_COURSE)
+    suspend fun postEnrollCourse(@Path("courseId") courseId: String) : Response<EnrollCourseResDto>
 }

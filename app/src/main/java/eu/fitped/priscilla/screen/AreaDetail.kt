@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import eu.fitped.priscilla.components.core.GenericList
 import eu.fitped.priscilla.components.core.SimpleCard
 import eu.fitped.priscilla.model.AreaDto
+import eu.fitped.priscilla.navigation.Screen
 import eu.fitped.priscilla.util.DataState
 import eu.fitped.priscilla.viewModel.AreaDetailViewModel
 
@@ -30,7 +31,11 @@ fun AreaDetail(
                     itemKey = { it.id }
                 ) {
                     SimpleCard(
-                        cardText = it.title
+                        cardText = it.title,
+                        disabled = it.courseStatus == "opened",
+                        onClick = {
+                            navController.navigate("${Screen.COURSE_PREVIEW.name}/${it.id}")
+                        }
                     )
                 }
             }

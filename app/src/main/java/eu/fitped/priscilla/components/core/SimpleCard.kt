@@ -20,18 +20,26 @@ fun SimpleCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     cardText: String,
+    disabled: Boolean = false,
     content: @Composable () -> Unit = {}
 ) {
     Card(
         modifier = modifier.fillMaxWidth()
-            .clickable(enabled = onClick != null, onClick = onClick ?: {} ),
+            .clickable(
+                enabled = onClick != null && !disabled,
+                onClick = onClick ?: {}
+            ),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
         )
     ) {
         Text(
             text = cardText,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = if (disabled)
+                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+            else
+                MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Center,
             modifier = Modifier
