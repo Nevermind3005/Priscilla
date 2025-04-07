@@ -15,4 +15,6 @@
     <string name="evaluating">Evaluating!</string>
     <string name="evaluated">Evaluated</string>
     <string name="lessons">Lessons</string>
+    <string name="no_account_message">Don\'t have an account?</string>
+    <string name="sign_up_exclamation_mark">Sign up!</string>
 </resources>

@@ -76,6 +76,7 @@ fun Login(
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurface,
                 )
+                Spacer(modifier = Modifier.size(64.dp))
                 eu.fitped.priscilla.components.Login(
                     password = password,
                     email = email,
