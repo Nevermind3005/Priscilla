@@ -28,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import eu.fitped.priscilla.R
 import eu.fitped.priscilla.navigation.NavigationItem
 import eu.fitped.priscilla.screen.Dashboard
+import eu.fitped.priscilla.screen.Leaderboard
 import eu.fitped.priscilla.screen.Preferences
 import eu.fitped.priscilla.screen.Topics
 
@@ -50,8 +51,11 @@ fun BottomNavigationBar(
             NavigationItem.Topics.route -> {
                 navigationSelectedItem = 1
             }
-            NavigationItem.Preferences.route -> {
+            NavigationItem.Leaderboard.route -> {
                 navigationSelectedItem = 2
+            }
+            NavigationItem.Preferences.route -> {
+                navigationSelectedItem = 3
             }
         }
     }
@@ -97,6 +101,9 @@ fun BottomNavigationBar(
             composable(NavigationItem.Topics.route) {
                 Topics(navController = navController)
             }
+            composable(NavigationItem.Leaderboard.route) {
+                Leaderboard(navController = navController)
+            }
             composable(NavigationItem.Preferences.route) {
                 Preferences(navController = navController)
             }
@@ -122,6 +129,11 @@ data class BottomNavigationItem(
                 label = stringResource(R.string.topics),
                 icon = painterResource(id = R.drawable.dashboard_customize_24px),
                 route = NavigationItem.Topics.route
+            ),
+            BottomNavigationItem(
+                label = stringResource(R.string.leaderboard),
+                icon = painterResource(id = R.drawable.leaderboard_24px),
+                route = NavigationItem.Leaderboard.route
             ),
             BottomNavigationItem(
                 label = stringResource(R.string.preferences),

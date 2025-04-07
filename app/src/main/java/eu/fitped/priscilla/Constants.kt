@@ -24,6 +24,8 @@ object Endpoints {
     const val VPL_RUN_TEST = "vpl-run-test3"
     const val VPL_GET_RESULT = "vpl-get-result33"
     const val ENROLL_COURSE = "write-user-course/{courseId}"
+    const val GET_LEADERBOARD = "get-leaders2"
+    const val GET_LEADERBOARD_USER_STAT = "get-leader-course/{userId}"
 }
 
 const val ACCESS_TOKEN_KEY_STRING = "a_jwt"

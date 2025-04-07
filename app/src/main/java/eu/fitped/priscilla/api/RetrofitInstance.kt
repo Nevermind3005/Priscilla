@@ -10,6 +10,7 @@ import eu.fitped.priscilla.IJwtTokenManager
 import eu.fitped.priscilla.service.IAuthService
 import eu.fitped.priscilla.service.ICourseService
 import eu.fitped.priscilla.service.ILanguageService
+import eu.fitped.priscilla.service.ILeaderboardService
 import eu.fitped.priscilla.service.IUserService
 import eu.fitped.priscilla.service.websocket.IWebSocketService
 import eu.fitped.priscilla.service.websocket.WebSocketService
@@ -113,4 +114,7 @@ object RetrofitInstance {
     @Singleton
     fun provideLanguageService(@AuthenticatedRetrofit retrofit: Retrofit) : ILanguageService = retrofit.create(ILanguageService::class.java)
 
+    @Provides
+    @Singleton
+    fun provideLeaderboardService(@AuthenticatedRetrofit retrofit: Retrofit) : ILeaderboardService = retrofit.create(ILeaderboardService::class.java)
 }

@@ -12,7 +12,9 @@ enum class Screen {
     LESSON_TASKS,
     COURSE_CATEGORY_AREAS,
     AREA_DETAIL,
-    COURSE_PREVIEW
+    COURSE_PREVIEW,
+    LEADERBOARD,
+    USER_LEADERBOARD_STAT
 }
 
 sealed class NavigationItem(val route: String) {
@@ -22,10 +24,12 @@ sealed class NavigationItem(val route: String) {
     object Login: NavigationItem(Screen.LOGIN.name)
     object Preferences: NavigationItem(Screen.PREFERENCES.name)
     object Topics: NavigationItem(Screen.TOPICS.name)
+    object Leaderboard: NavigationItem(Screen.LEADERBOARD.name)
     object CourseDetail: NavigationItem("${Screen.COURSE_DETAIL.name}/{courseId}")
     object ChapterDetail: NavigationItem("${Screen.CHAPTER_DETAIL.name}/{chapterId}")
     object LessonTasks: NavigationItem("${Screen.LESSON_TASKS.name}/{courseId}/{chapterId}/{lessonId}")
     object CourseCategoryAreas: NavigationItem("${Screen.COURSE_CATEGORY_AREAS.name}/{categoryId}")
     object AreaDetail: NavigationItem("${Screen.AREA_DETAIL.name}/{areaId}")
     object CoursePreview: NavigationItem("${Screen.COURSE_PREVIEW}/{courseId}")
+    object UserLeaderboardStat: NavigationItem("${Screen.USER_LEADERBOARD_STAT}/{userId}/{nickName}")
 }

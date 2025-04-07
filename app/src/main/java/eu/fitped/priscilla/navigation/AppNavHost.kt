@@ -16,6 +16,7 @@ import eu.fitped.priscilla.screen.CourseDetail
 import eu.fitped.priscilla.screen.CoursePreview
 import eu.fitped.priscilla.screen.Home
 import eu.fitped.priscilla.screen.Login
+import eu.fitped.priscilla.screen.UserLeaderboardStat
 
 @Composable
 fun AppNavHost(
@@ -94,6 +95,18 @@ fun AppNavHost(
             CoursePreview(
                 courseId = backStackEntry.arguments?.getString("courseId"),
                 navController = navController
+            )
+        }
+        composable(
+            NavigationItem.UserLeaderboardStat.route,
+            arguments = listOf(
+                navArgument("userId") { type = NavType.StringType },
+                navArgument("nickName") { type = NavType.StringType },
+                )
+        ) { backStackEntry ->
+            UserLeaderboardStat(
+                userId = backStackEntry.arguments?.getString("userId"),
+                nickName = backStackEntry.arguments?.getString("nickName")
             )
         }
     }
