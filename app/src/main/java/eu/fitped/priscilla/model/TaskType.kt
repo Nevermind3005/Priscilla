@@ -8,7 +8,8 @@ enum class TaskType(val id: Long) {
     TEXT_INSIDE_CONTENT(5L),
     DND(6L),
     DRAGGABLE(7L),
-    CODE(8L);
+    CODE(8L),
+    CODE_ADVANCED(9L);
 
     companion object {
         fun forId(id: Long) = entries.find{ it.id == id }

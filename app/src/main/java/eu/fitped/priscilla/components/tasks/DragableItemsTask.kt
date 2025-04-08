@@ -32,10 +32,13 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import eu.fitped.priscilla.components.HTMLText
 import eu.fitped.priscilla.components.TaskEvalAlert
 import eu.fitped.priscilla.model.TaskContentDraggable
 import eu.fitped.priscilla.model.TaskEvalDto
+import eu.fitped.priscilla.model.TaskType
 import eu.fitped.priscilla.viewModel.TaskViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -45,16 +48,16 @@ import java.util.Collections
 @Composable
 fun DraggableItemsTask(
     modifier: Modifier = Modifier,
-    taskContent: TaskContentDraggable,
-    activityType: String,
-    taskId: Long,
-    taskTypeId: Long,
+    taskId: String?,
     onClick: MutableState<() -> Unit>
 ) {
     val taskViewModel: TaskViewModel = hiltViewModel()
     val state by taskViewModel.dataState.collectAsState()
 
     val startTime = System.currentTimeMillis() / 1000
+
+    val mapper = jacksonObjectMapper()
+    val taskContent: TaskContentDraggable = mapper.readValue(taskViewModel.getTask()!!.content)
 
     val values = remember {
         taskContent.codes.toMutableStateList()
@@ -63,9 +66,9 @@ fun DraggableItemsTask(
     onClick.value = {
         val currentTime = System.currentTimeMillis() / 1000
         val taskAnswer = TaskEvalDto(
-            activityType = activityType,
-            taskId = taskId,
-            taskTypeId = taskTypeId,
+            activityType = "chapter",
+            taskId = taskId!!.toLong(),
+            taskTypeId = TaskType.DRAGGABLE.id,
             timeLength = currentTime - startTime,
             answerList = values
         )

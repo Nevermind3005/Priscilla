@@ -23,7 +23,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -51,11 +50,7 @@ import eu.fitped.priscilla.viewModel.CodeTaskViewModel
 @Composable
 fun CodeTask(
     modifier: Modifier = Modifier,
-    taskContent: TaskContentCode,
-    globals: GlobalsCodeTask,
-    activityType: String,
-    taskId: Long,
-    taskTypeId: Long,
+    taskId: String?,
     onClick: MutableState<() -> Unit>
 ) {
     val mapper = jacksonObjectMapper()
@@ -75,8 +70,14 @@ fun CodeTask(
 
     var code by remember { mutableStateOf(listOf<String>()) }
 
+    val currentTask = codeTaskViewModel.getTask()!!
+
+    val taskContent: TaskContentCode = mapper.readValue(currentTask.content)
+    val globals: GlobalsCodeTask = mapper.readValue(currentTask.globals)
+
+
     LaunchedEffect(key1 = Unit) {
-        codeTaskViewModel.loadSavedCode(taskId)
+        codeTaskViewModel.loadSavedCode(taskId!!.toLong())
     }
 
     LaunchedEffect(codeEvalState) {
@@ -90,7 +91,7 @@ fun CodeTask(
         for (i in 0..<globals.files.files.size) {
             codeList.add(CodeFile(globals.files.files[i], code[i]))
         }
-        val req = SaveProgramReqDto(activityType, codeList, taskId)
+        val req = SaveProgramReqDto("chapter", codeList, taskId!!.toLong())
         codeTaskViewModel.evaluate(req)
     }
 

@@ -62,13 +62,8 @@ fun AppNavHost(
                 navArgument("chapterId") { type = NavType.StringType },
                 navArgument("lessonId") { type = NavType.StringType }
             )
-        ) { backStackEntry ->
-            LessonTasks(
-                courseId = backStackEntry.arguments?.getString("courseId"),
-                chapterId = backStackEntry.arguments?.getString("chapterId"),
-                lessonId = backStackEntry.arguments?.getString("lessonId"),
-                navController = navController
-            )
+        ) {
+            LessonTasks()
         }
         composable(
             NavigationItem.CourseCategoryAreas.route,

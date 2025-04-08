@@ -14,7 +14,18 @@ enum class Screen {
     AREA_DETAIL,
     COURSE_PREVIEW,
     LEADERBOARD,
-    USER_LEADERBOARD_STAT
+    USER_LEADERBOARD_STAT,
+    // Navigation for tasks
+    TASK_TEXT_ONLY,
+    TASK_TEXT_INPUT,
+    TASK_RADIO_INPUT,
+    TASK_CHECKBOX_INPUT,
+    TASK_INLINE_TEXT_INPUT,
+    TASK_DND,
+    TASK_DRAGGABLE,
+    TASK_CODE_JAVA,
+    TASK_UNDEFINED,
+    TASK_NOT_IMPLEMENTED
 }
 
 sealed class NavigationItem(val route: String) {
@@ -32,4 +43,15 @@ sealed class NavigationItem(val route: String) {
     object AreaDetail: NavigationItem("${Screen.AREA_DETAIL.name}/{areaId}")
     object CoursePreview: NavigationItem("${Screen.COURSE_PREVIEW}/{courseId}")
     object UserLeaderboardStat: NavigationItem("${Screen.USER_LEADERBOARD_STAT}/{userId}/{nickName}")
+    // Navigation for tasks
+    object TaskTextOnly: NavigationItem("${Screen.TASK_TEXT_ONLY}/{taskId}")
+    object TaskTextInput: NavigationItem("${Screen.TASK_TEXT_INPUT}/{taskId}")
+    object TaskRadioInput: NavigationItem("${Screen.TASK_RADIO_INPUT}/{taskId}")
+    object TaskCheckboxInput: NavigationItem("${Screen.TASK_CHECKBOX_INPUT}/{taskId}")
+    object TaskInlineTextInput: NavigationItem("${Screen.TASK_INLINE_TEXT_INPUT}/{taskId}")
+    object TaskDND: NavigationItem("${Screen.TASK_DND}/{taskId}")
+    object TaskDraggable: NavigationItem("${Screen.TASK_DRAGGABLE}/{taskId}")
+    object TaskCodeJava: NavigationItem("${Screen.TASK_CODE_JAVA}/{taskId}")
+    object TaskUndefined: NavigationItem("${Screen.TASK_UNDEFINED}")
+    object TaskNotImplemented: NavigationItem("${Screen.TASK_NOT_IMPLEMENTED}")
 }

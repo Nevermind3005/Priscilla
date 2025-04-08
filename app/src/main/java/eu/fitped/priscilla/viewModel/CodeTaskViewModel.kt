@@ -1,12 +1,15 @@
 package eu.fitped.priscilla.viewModel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import eu.fitped.priscilla.CODE_EVAL_MONITOR_URL_WSS
+import eu.fitped.priscilla.model.TaskDto
 import eu.fitped.priscilla.model.code.LoadCodeReqDto
 import eu.fitped.priscilla.model.code.SaveProgramReqDto
 import eu.fitped.priscilla.model.vpl.VPLGetResultReqDto
 import eu.fitped.priscilla.model.vpl.VPLRunTestReqDto
+import eu.fitped.priscilla.repository.ITaskRepository
 import eu.fitped.priscilla.service.ICourseService
 import eu.fitped.priscilla.service.websocket.ConnectionState
 import eu.fitped.priscilla.service.websocket.IWebSocketListener
@@ -24,14 +27,14 @@ import javax.inject.Inject
 @HiltViewModel
 class CodeTaskViewModel @Inject constructor(
     private val _courseService: ICourseService,
-    private val _webSocketService: IWebSocketService
+    private val _webSocketService: IWebSocketService,
+    private val _taskRepository: ITaskRepository,
+    savedStateHandle: SavedStateHandle
 ) : TaskViewModelBase(), IWebSocketListener {
+    private val taskId: String = savedStateHandle["taskId"] ?: ""
 
     private val _connectionState = MutableStateFlow(ConnectionState.DISCONNECTED)
     val connectionState: StateFlow<ConnectionState> = _connectionState
-
-//    private val _dataState = MutableStateFlow<DataStateTaskEval>(DataStateTaskEval.Idle)
-//    val dataState: StateFlow<DataStateTaskEval> get() = _dataState
 
     private val _loadedCodeDataState = MutableStateFlow<DataState>(DataState.Loading)
     val loadedCodeDataState: StateFlow<DataState> get() = _loadedCodeDataState
@@ -42,10 +45,12 @@ class CodeTaskViewModel @Inject constructor(
 
     var adminTicket = ""
 
-    var bIsRetrieved = false
-
     init {
         println("CodeTaskViewInit")
+    }
+
+    fun getTask() : TaskDto? {
+        return _taskRepository.getTaskById(taskId)
     }
 
     fun loadSavedCode(taskId: Long) {

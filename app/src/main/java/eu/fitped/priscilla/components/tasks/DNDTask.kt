@@ -9,14 +9,12 @@ import eu.fitped.priscilla.model.TaskContentDND
 @Composable
 fun DNDTask(
     modifier: Modifier = Modifier,
-    taskContent: TaskContentDND,
-    activityType: String,
-    taskId: Long,
-    taskTypeId: Long
+    taskId: String?
 ) {
+    // TaskContentDND
     Column(
         modifier = modifier
     ) {
-        HTMLTextWithDND(html = taskContent.content, fakes = taskContent.fakes)
+//        HTMLTextWithDND(html = taskContent.content, fakes = taskContent.fakes)
     }
 }

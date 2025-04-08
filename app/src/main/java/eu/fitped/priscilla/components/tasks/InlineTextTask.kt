@@ -3,12 +3,6 @@ package eu.fitped.priscilla.components.tasks
 import android.util.Log
 import android.webkit.WebView
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -18,16 +12,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
-import eu.fitped.priscilla.R
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import eu.fitped.priscilla.components.HTMLTextWithEditText
 import eu.fitped.priscilla.components.TaskEvalAlert
-import eu.fitped.priscilla.model.CourseDetailDto
 import eu.fitped.priscilla.model.TaskContentText
 import eu.fitped.priscilla.model.TaskEvalDto
+import eu.fitped.priscilla.model.TaskType
 import eu.fitped.priscilla.viewModel.TaskViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -35,10 +27,7 @@ import org.json.JSONArray
 @Composable
 fun InlineTextTask(
     modifier: Modifier = Modifier,
-    taskContent: TaskContentText,
-    activityType: String,
-    taskId: Long,
-    taskTypeId: Long,
+    taskId: String?,
     onClick: MutableState<() -> Unit>
 ) {
     val taskViewModel: TaskViewModel = hiltViewModel()
@@ -46,6 +35,9 @@ fun InlineTextTask(
 
     val coroutineScope = rememberCoroutineScope()
     var webView by remember { mutableStateOf<WebView?>(null) }
+
+    val mapper = jacksonObjectMapper()
+    val taskContent: TaskContentText = mapper.readValue(taskViewModel.getTask()!!.content)
 
     val result = remember {
         mutableListOf<String>()
@@ -64,9 +56,9 @@ fun InlineTextTask(
                     Log.i("InlineTextTask", jsonArray.getString(i))
                 }
                 val taskAnswer = TaskEvalDto(
-                    activityType = activityType,
-                    taskId = taskId,
-                    taskTypeId = taskTypeId,
+                    activityType = "chapter",
+                    taskId = taskId!!.toLong(),
+                    taskTypeId = TaskType.TEXT_INSIDE_CONTENT.id,
                     timeLength = currentTime - startTime,
                     answerList = result
                 )
