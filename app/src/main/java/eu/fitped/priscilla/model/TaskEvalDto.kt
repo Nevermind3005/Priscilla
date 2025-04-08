@@ -27,7 +27,8 @@ class TaskEvalDtoSerializer : JsonSerializer<TaskEvalDto>() {
         gen.writeNumberField("task_type_id", value.taskTypeId)
         gen.writeNumberField("time_length", value.timeLength)
         gen.writeStringField("activity_type", value.activityType)
-        gen.writeStringField("answer_list", value.answerList.joinToString(prefix = "[\"", postfix = "\"]", separator = "\",\""))
+        val escapedList = value.answerList.map { it.replace("\"", "\\\"") }
+        gen.writeStringField("answer_list", escapedList.joinToString(prefix = "[\"", postfix = "\"]", separator = "\",\""))
         gen.writeEndObject()
     }
 }
