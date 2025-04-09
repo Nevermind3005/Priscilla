@@ -20,4 +20,5 @@
     <string name="leaderboard">Rebríček</string>
     <string name="coins">mince</string>
     <string name="level">úroveň</string>
+    <string name="endless_scroll_end">To je všetko, čo máme!</string>
 </resources>

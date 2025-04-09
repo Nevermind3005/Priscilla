@@ -23,4 +23,5 @@
     <string name="coins">coins</string>
     <string name="level">level</string>
     <string name="ok" translatable="false">Ok</string>
+    <string name="endless_scroll_end">That\'s all Folks!</string>
 </resources>

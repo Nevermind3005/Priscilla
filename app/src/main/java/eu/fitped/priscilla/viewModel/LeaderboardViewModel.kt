@@ -28,7 +28,7 @@ class LeaderboardViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _pageSize: Long = 10
+    private val _pageSize: Long = 25
     private var _offset: Long = 0
 
     init {

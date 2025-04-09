@@ -24,7 +24,6 @@ fun Avatar(
         modifier = Modifier.background(MaterialTheme.colorScheme.primary, shape = CircleShape)
             .circleLayout()
             .padding(24.dp)
-
     )
 }
 

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,16 +27,15 @@ fun <T> EndlessScrollList(
     isLoading: Boolean,
     hasMoreItems: Boolean,
     modifier: Modifier = Modifier,
+    listState: LazyListState,
     loadingContent: @Composable () -> Unit = {
-        Box(modifier = Modifier.fillMaxWidth().padding(16.dp), contentAlignment = Alignment.Center) {
+        Box(modifier = Modifier.fillMaxWidth().padding(4.dp), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
     },
     endReachedText: String = "That's all Folks!",
 ) {
-    val listState = rememberLazyListState()
-
-    val reachedBottom: Boolean by remember { derivedStateOf { listState.reachedBottom() } }
+    val reachedBottom: Boolean by remember { derivedStateOf { listState.reachedBottom(5) } }
 
     LaunchedEffect(reachedBottom) {
         if (reachedBottom && hasMoreItems && !isLoading) {
@@ -60,7 +58,7 @@ fun <T> EndlessScrollList(
                 isLoading -> loadingContent()
                 !hasMoreItems -> {
                     Box(
-                        modifier = Modifier.fillMaxWidth().padding(16.dp),
+                        modifier = Modifier.fillMaxWidth().padding(8.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(endReachedText)
