@@ -1,4 +1,4 @@
-package eu.fitped.priscilla.components.tasks
+package eu.fitped.priscilla.screen.task
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
