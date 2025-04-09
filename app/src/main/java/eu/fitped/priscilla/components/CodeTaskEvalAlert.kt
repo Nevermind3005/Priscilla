@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import eu.fitped.priscilla.R
-import eu.fitped.priscilla.model.TaskEvalRes
 import eu.fitped.priscilla.model.vpl.VPLGetResultResDto
 import eu.fitped.priscilla.util.DataStateTaskEval
 
@@ -57,7 +56,7 @@ fun CodeTaskEvalAlert(
                         onClick = { resetState() },
                         modifier = Modifier.padding(8.dp),
                     ) {
-                        Text("Oki")
+                        Text(stringResource(R.string.ok))
                     }
 
                 }

@@ -22,4 +22,5 @@
     <string name="xp" translatable="false">xp</string>
     <string name="coins">coins</string>
     <string name="level">level</string>
+    <string name="ok" translatable="false">Ok</string>
 </resources>

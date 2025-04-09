@@ -57,7 +57,7 @@ fun TaskEvalAlert(
                             onClick = { resetState() },
                             modifier = Modifier.padding(8.dp),
                         ) {
-                            Text("Oki")
+                            Text(stringResource(R.string.ok))
                         }
 
                     }
