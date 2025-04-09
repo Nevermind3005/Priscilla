@@ -3,6 +3,7 @@ package eu.fitped.priscilla.screen
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import eu.fitped.priscilla.R
-import eu.fitped.priscilla.components.CompactHeader
+import eu.fitped.priscilla.components.Avatar
 import eu.fitped.priscilla.components.FullHeader
 import eu.fitped.priscilla.components.input.LanguageSelect
 import eu.fitped.priscilla.model.LanguageGetDto
@@ -63,28 +64,66 @@ fun Preferences(
             modifier = modifier
                 .padding(horizontal = 16.dp)
                 .padding(padding)
-                .fillMaxSize(),
         ) {
             when (state) {
                 is DataState.Loading -> Loading()
                 is DataState.Success<*> -> {
                     val response = (state as DataState.Success<Pair<List<LanguageGetDto>, UserDto>>).data
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
+                    Column(
+                        modifier = modifier.padding(8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(
-                            modifier = Modifier.padding(16.dp),
-                            text = stringResource(R.string.language),
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        LanguageSelect(
-                            languages = response.first,
-                            currentLanguageId = response.second.langId,
-                            modifier = Modifier.padding(16.dp),
-                            onLanguageItemClick = {preferencesViewModel.setUserLanguage(LanguagePostDto(it.shortcut))}
-                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(vertical = 8.dp),
+                                verticalArrangement = Arrangement.Center,
+                            ) {
+                                Avatar("${response.second.name.first().uppercaseChar()}${response.second.surname.first().uppercaseChar()}")
+                            }
+                            Column {
+                                Text(
+                                    "${response.second.name} ${response.second.surname}",
+                                    style = MaterialTheme.typography.headlineLarge,
+                                    modifier = Modifier.padding(4.dp)
+                                )
+                                Text(
+                                    "${response.second.performance.xp} ${stringResource(R.string.xp)}",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier.padding(2.dp)
+                                )
+                                Text(
+                                    "${response.second.performance.coins} ${stringResource(R.string.coins)}",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier.padding(2.dp)
+                                )
+                                Text(
+                                    "${response.second.performance.level}. ${stringResource(R.string.level)}",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier.padding(2.dp)
+                                )
+                            }
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                modifier = Modifier.padding(16.dp),
+                                text = stringResource(R.string.language),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                            LanguageSelect(
+                                languages = response.first,
+                                currentLanguageId = response.second.langId,
+                                modifier = Modifier.padding(16.dp),
+                                onLanguageItemClick = {preferencesViewModel.setUserLanguage(LanguagePostDto(it.shortcut))}
+                            )
+                        }
                     }
                 }
                 is DataState.Error -> {

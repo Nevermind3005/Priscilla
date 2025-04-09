@@ -18,4 +18,6 @@
     <string name="enroll">Zapísať sa</string>
     <string name="no_account_message">Nemáš účet?</string>
     <string name="leaderboard">Rebríček</string>
+    <string name="coins">mince</string>
+    <string name="level">úroveň</string>
 </resources>
