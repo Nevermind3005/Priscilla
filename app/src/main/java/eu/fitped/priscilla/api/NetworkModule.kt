@@ -27,7 +27,7 @@ val mapper = jacksonObjectMapper()
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RetrofitInstance {
+object NetworkModule {
 
     @Singleton
     @Provides
