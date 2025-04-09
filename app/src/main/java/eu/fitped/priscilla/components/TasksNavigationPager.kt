@@ -210,8 +210,10 @@ fun TasksNavigationPager(
                     )
                 ) { backStackEntry ->
                     DNDTask(
+                        modifier = Modifier.fillMaxWidth(),
                         taskId = backStackEntry.arguments?.getString("taskId"),
-                        )
+                        onClick = onClick
+                    )
                 }
                 composable(NavigationItem.TaskDraggable.route,
                     arguments = listOf(

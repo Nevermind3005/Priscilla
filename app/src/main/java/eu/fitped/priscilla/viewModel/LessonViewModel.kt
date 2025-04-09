@@ -49,4 +49,8 @@ class LessonViewModel @Inject constructor(
             }
         }
     }
+
+    fun getTaskRepository(): ITaskRepository {
+        return _taskRepository
+    }
 }
