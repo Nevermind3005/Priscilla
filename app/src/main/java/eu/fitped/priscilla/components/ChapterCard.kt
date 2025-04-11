@@ -59,7 +59,10 @@ fun ChapterCard(
                     iconPainter = painterResource(R.drawable.quiz_24px)
                 )
                 LinearProgressIndicator(
-                    progress = 100.0f / (chapterDto.tasksFinished + chapterDto.tasksNotFinished) * chapterDto.tasksFinished / 100.0f
+                    progress = if ((chapterDto.tasksFinished + chapterDto.tasksNotFinished) > 0)
+                        chapterDto.tasksFinished.toFloat() / (chapterDto.tasksFinished + chapterDto.tasksNotFinished)
+                    else
+                        0f
                 )
             }
             Column(
@@ -72,7 +75,10 @@ fun ChapterCard(
                     iconPainter = painterResource(R.drawable.code_24px)
                 )
                 LinearProgressIndicator(
-                    progress = 100.0f / (chapterDto.programsFinished + chapterDto.programsNotFinished) * chapterDto.programsFinished / 100.0f
+                    progress = if ((chapterDto.programsFinished + chapterDto.programsNotFinished) > 0)
+                        chapterDto.programsFinished.toFloat() / (chapterDto.programsFinished + chapterDto.programsNotFinished)
+                    else
+                        0f
                 )
             }
         }
