@@ -8,8 +8,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import eu.fitped.priscilla.R
 import eu.fitped.priscilla.ui.theme.Typography
 
 @Composable
@@ -21,7 +23,7 @@ fun TaskNotImplemented() {
     ) {
         Text(
             modifier = Modifier.padding(vertical = 8.dp),
-            text = "Not implemented",
+            text = stringResource(R.string.not_implemented),
             style = Typography.titleLarge,
             fontWeight = FontWeight.Bold
         )

@@ -4,8 +4,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import eu.fitped.priscilla.R
 import eu.fitped.priscilla.components.core.GenericList
 import eu.fitped.priscilla.components.core.SimpleCard
 import eu.fitped.priscilla.model.CourseCategoriesDto
@@ -25,7 +27,7 @@ fun Topics(
         is DataState.Success<*> -> {
             val data = (state as DataState.Success<CourseCategoriesDto>).data
             GenericList(
-                headerText = data.title,
+                headerText = stringResource(R.string.topics),
                 items = data.list,
                 itemKey = { it.categoryId }
             ) {

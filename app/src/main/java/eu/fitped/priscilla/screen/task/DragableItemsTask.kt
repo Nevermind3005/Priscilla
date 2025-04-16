@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -117,7 +118,9 @@ fun DraggableItemsTask(
             } else {
                 null
             }
-            ListItem(item, displacementOffset)
+            key(item) {
+                ListItem(item, displacementOffset)
+            }
         }
     }
 }
@@ -151,7 +154,8 @@ private fun ListItem(
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            Text(text = item, modifier = Modifier.padding(16.dp))
+            HTMLText(html = item, modifier = Modifier.padding(16.dp))
+//            Text(text = item)
         }
     }
 }
